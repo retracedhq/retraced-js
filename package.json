@@ -1,0 +1,47 @@
+{
+    "name": "retraced-js",
+    "author": "Replicated, Inc.",
+    "version": "0.1.0",
+    "engines": {
+        "node": "^4.3.2"
+    },
+    "license": "MIT",
+    "repository": "https://github.com/retracedhq/retraced-js.git",
+    "bugs": {
+        "email": "bugs@retraced.io",
+        "url": "https://github.com/retracedhq/retraced-js/issues"
+    },
+    "description": "The official NodeJS client for interacting with the Retraced audit logging API.",
+    "keywords": [
+        "audit",
+        "log",
+        "retraced",
+        "replicated"
+    ],
+    "contributors": [
+        "Joe Toscano <jtoscano42@gmail.com>"
+    ],
+    "main": "lib/index.js",
+    "typings": "lib/index",
+    "files": [
+        "lib/"
+    ],
+    "scripts": {
+        "prepublish": "rm -rf ./lib && tslint --project ./tsconfig.json && tsc -p .",
+        "test": "rm -rf ./lib && tsc -p . && mocha ./lib/test.js"
+    },
+    "devDependencies": {
+        "@types/chai": "^3.4.34",
+        "@types/chai-as-promised": "^0.0.29",
+        "@types/node": "^7.0.0",
+        "chai": "^3.5.0",
+        "chai-as-promised": "^6.0.0",
+        "mocha": "^3.2.0",
+        "mocha-typescript": "^1.0.15",
+        "tslint": "^4.3.1",
+        "typescript": "^2.1.5"
+    },
+    "dependencies": {
+        "isomorphic-fetch": "^2.2.1"
+    }
+}
