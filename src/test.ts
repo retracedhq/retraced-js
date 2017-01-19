@@ -1,13 +1,15 @@
 import { suite, test, slow, timeout, skip, only } from "mocha-typescript";
-import { assert } from "chai";
+import { assert, expect } from "chai";
 
-import RetracedJS from "./";
+import * as Retraced from "./";
 
 @suite class RetracedJSTests {
   @test public "should instantiate"() {
-    const garbo = new RetracedJS({
+    const garbo = new Retraced.Client({
       apiKey: "lmao rn tbqh",
+      projectId: "aaaahahahahahahaha",
     });
-    assert.isNotNull(garbo);
+
+    expect(garbo).to.exist;
   }
 }
