@@ -12,16 +12,16 @@ export interface Config {
 export interface Target {
   id: string;
   displayName?: string;
-  type?: string;
   url?: string;
-  fields?: { [key: string]: any; };
+  type?: string;
+  // fields?: { [key: string]: any; };
 }
 
 export interface Actor {
   id: string;
   displayName?: string;
-  type?: string;
   url?: string;
+  // type?: string;
 }
 
 export interface Event {
@@ -35,7 +35,7 @@ export interface Event {
   description?: string;
   isFailure?: boolean;
   isAnonymous?: boolean;
-  fields?: { [key: string]: any; };
+  // fields?: { [key: string]: any; };
 }
 
 export class Client {
@@ -51,6 +51,34 @@ export class Client {
   public async reportEvent(event: Event) {
     const { endpoint, apiKey, projectId } = this.config;
 
+    const requestBody: any = {
+      action: event.action,
+      team_id: event.teamId,
+      crud: event.crud,
+      created: event.created,
+      source_ip: event.sourceIp,
+      description: event.description,
+      is_failure: event.isFailure,
+      is_anonymous: event.isAnonymous,
+    };
+
+    if (event.actor) {
+      requestBody.actor = {
+        id: event.actor.id,
+        name: event.actor.displayName,
+        url: event.actor.url,
+      };
+    }
+
+    if (event.target) {
+      requestBody.object = {
+        id: event.target.id,
+        name: event.target.displayName,
+        url: event.target.url,
+        type: event.target.type,
+      };
+    }
+
     const response = await fetch(`${endpoint}/project/${projectId}/event`, {
       method: "POST",
       headers: {
@@ -58,7 +86,7 @@ export class Client {
         Accept: "application/json",
         Authorization: `Token token=${apiKey}`,
       },
-      body: JSON.stringify(event),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
