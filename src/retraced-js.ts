@@ -94,10 +94,15 @@ export class Client {
     }
   }
 
-  public async getViewerToken(teamId: string): Promise<string> {
+  public async getViewerToken(teamId: string, isAdmin?: boolean): Promise<string> {
     const { endpoint, apiKey, projectId } = this.config;
 
-    const q = url.format({ query: { team_id: teamId } });
+    const q = url.format({
+      query: {
+        team_id: teamId,
+        is_admin: !!isAdmin,
+      },
+    });
     const urlWithQuery = `${endpoint}/project/${projectId}/viewertoken${q}`;
     const response = await fetch(urlWithQuery, {
       method: "GET",
