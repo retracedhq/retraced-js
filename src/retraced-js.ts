@@ -1,5 +1,6 @@
 import "isomorphic-fetch";
 import * as url from "url";
+import { Event, verifyHash } from "./event";
 
 const defaultEndpoint = "https://api.retraced.io/v1";
 
@@ -9,33 +10,9 @@ export interface Config {
   endpoint?: string;
 }
 
-export interface Target {
+export interface NewEventRecord {
   id: string;
-  displayName?: string;
-  url?: string;
-  type?: string;
-  // fields?: { [key: string]: any; };
-}
-
-export interface Actor {
-  id: string;
-  displayName?: string;
-  url?: string;
-  // type?: string;
-}
-
-export interface Event {
-  action: string;
-  teamId: string;
-  crud?: string;
-  created?: number;
-  actor?: Actor;
-  target?: Target;
-  sourceIp?: string;
-  description?: string;
-  isFailure?: boolean;
-  isAnonymous?: boolean;
-  // fields?: { [key: string]: any; };
+  hash: string;
 }
 
 export class Client {
@@ -53,31 +30,17 @@ export class Client {
 
     const requestBody: any = {
       action: event.action,
-      team_id: event.teamId,
+      group: event.group,
       crud: event.crud,
       created: event.created,
+      actor: event.actor,
+      target: event.target,
       source_ip: event.sourceIp,
       description: event.description,
       is_failure: event.isFailure,
       is_anonymous: event.isAnonymous,
+      fields: event.fields,
     };
-
-    if (event.actor) {
-      requestBody.actor = {
-        id: event.actor.id,
-        name: event.actor.displayName,
-        url: event.actor.url,
-      };
-    }
-
-    if (event.target) {
-      requestBody.object = {
-        id: event.target.id,
-        name: event.target.displayName,
-        url: event.target.url,
-        type: event.target.type,
-      };
-    }
 
     const response = await fetch(`${endpoint}/project/${projectId}/event`, {
       method: "POST",
@@ -91,6 +54,13 @@ export class Client {
 
     if (!response.ok) {
       throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
+    }
+
+    const newEvent: NewEventRecord = await response.json();
+    try {
+      verifyHash(event, newEvent);
+    } catch (err) {
+      throw new Error(`Our local hash calculation did not match the server's: ${err}`);
     }
   }
 
