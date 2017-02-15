@@ -1,4 +1,5 @@
-0.1.2 / 2017-01-20
+0.1.2 / 2017-02-13
+    * Added hash verification function.
     * Add "is_admin" field to viewer token request.
 
 0.1.1 / 2017-01-19
