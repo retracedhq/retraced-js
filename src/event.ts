@@ -6,25 +6,25 @@ import { NewEventRecord } from "./retraced-js";
 
 export interface Target {
   id: string;
-  name: string;
+  name?: string;
   href?: string;
   type?: string;
 }
 
 export interface Actor {
   id: string;
-  name: string;
+  name?: string;
   href?: string;
 }
 
 export interface Group {
   id: string;
-  name: string;
+  name?: string;
 }
 
 export interface Event {
   action: string;
-  group: Group;
+  group?: Group;
   crud?: string;
   created?: number;
   actor?: Actor;
@@ -37,7 +37,16 @@ export interface Event {
 }
 
 const requiredFields = [
-  "action", "group.id",
+  "action",
+];
+
+const requiredSubfields = [
+  // group.id is required if group is present
+  ["group", "group.id"],
+  // target.id is required if target is present
+  ["target", "target.id"],
+  // actor.id is required if actor is present
+  ["actor", "actor.id"],
 ];
 
 // Produces a canonical hash string representation of an event.
@@ -48,12 +57,34 @@ export function verifyHash(event: Event, newEvent: NewEventRecord): string {
     }
   }
 
+  for (const [fieldName, requiredSubfield] of requiredSubfields) {
+    const hasField = !_.isEmpty(_.get(event, fieldName));
+    const missingSubfield = hasField && _.isEmpty(_.get(event, requiredSubfield));
+    if (missingSubfield) {
+      throw new Error(`Canonicalization failed: attribute '${requiredSubfield}' is required if '${fieldName}' is present.`);
+    }
+  }
+
+
+  const canonicalString = buildHashTarget(event, newEvent);
+  const hasher = crypto.createHash("sha256");
+  hasher.update(canonicalString);
+  const hashResult = hasher.digest("hex");
+
+  if (hashResult !== newEvent.hash) {
+    throw new Error(`hash mismatch, local=${hashResult}, remote=${newEvent.hash}`);
+  }
+
+  return hashResult;
+}
+
+export function buildHashTarget(event: Event, newEvent: NewEventRecord): string {
   let canonicalString = "";
   canonicalString += `${encodePassOne(newEvent.id)}:`;
   canonicalString += `${encodePassOne(event.action)}:`;
   canonicalString += _.isEmpty(event.target) ? ":" : `${encodePassOne(event.target!.id)}:`;
   canonicalString += _.isEmpty(event.actor) ? ":" : `${encodePassOne(event.actor!.id)}:`;
-  canonicalString += `${encodePassOne(event.group.id)}:`;
+  canonicalString += _.isEmpty(event.group) ? ":" : `${encodePassOne(event.group!.id)}:`;
   canonicalString += _.isEmpty(event.sourceIp) ? ":" : `${encodePassOne(event.sourceIp!)}:`;
   canonicalString += event.isFailure ? "1:" : "0:";
   canonicalString += event.isAnonymous ? "1:" : "0:";
@@ -69,16 +100,7 @@ export function verifyHash(event: Event, newEvent: NewEventRecord): string {
       canonicalString += `${encodedKey}=${encodedValue};`;
     }
   }
-
-  const hasher = crypto.createHash("sha256");
-  hasher.update(canonicalString);
-  const hashResult = hasher.digest("hex");
-
-  if (hashResult !== newEvent.hash) {
-    throw new Error(`hash mismatch, local=${hashResult}, remote=${newEvent.hash}`);
-  }
-
-  return hashResult;
+  return canonicalString;
 }
 
 function encodePassOne(valueIn: string): string {

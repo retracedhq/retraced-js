@@ -80,4 +80,32 @@ import * as Retraced from "./";
 
     expect(explosion).to.not.exist;
   }
+
+  @test public "should generate a hash target without a group specified"() {
+    const testEvent: Retraced.Event = {
+      action: "even.more.of.a.test",
+      actor: {
+        id: "user@domain.xyz",
+        name: "Chauncey O'Farragut",
+      },
+      target: {
+        id: "some_object01234",
+        name: "Important Business Widget",
+      },
+      isAnonymous: false,
+      isFailure: true,
+      fields: {
+        "abc=xyz": "nothing special",
+      },
+    };
+
+
+    const fakeNew: Retraced.NewEventRecord = {
+      id: "kfbr392",
+      hash: "ignored",
+    };
+
+    const expected = "kfbr392:even.more.of.a.test:some_object01234:user@domain.xyz:::1:0:abc%3Dxyz=nothing special;";
+    expect(Retraced.buildHashTarget(testEvent, fakeNew)).to.equal(expected); 
+  }
 }
