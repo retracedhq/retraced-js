@@ -35,6 +35,7 @@
         "@types/chai-as-promised": "^0.0.29",
         "@types/isomorphic-fetch": "^0.0.31",
         "@types/node": "^7.0.0",
+        "@types/lodash": "^4.14.52",
         "chai": "^3.5.0",
         "chai-as-promised": "^6.0.0",
         "mocha": "^3.2.0",
@@ -43,7 +44,6 @@
         "typescript": "^2.1.5"
     },
     "dependencies": {
-        "@types/lodash": "^4.14.52",
         "isomorphic-fetch": "^2.2.1",
         "lodash": "^4.17.4"
     }
