@@ -99,13 +99,12 @@ import * as Retraced from "./";
       },
     };
 
-
     const fakeNew: Retraced.NewEventRecord = {
       id: "kfbr392",
       hash: "ignored",
     };
 
     const expected = "kfbr392:even.more.of.a.test:some_object01234:user@domain.xyz:::1:0:abc%3Dxyz=nothing special;";
-    expect(Retraced.buildHashTarget(testEvent, fakeNew)).to.equal(expected); 
+    expect(Retraced.buildHashTarget(testEvent, fakeNew)).to.equal(expected);
   }
 }

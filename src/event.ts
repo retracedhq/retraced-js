@@ -65,7 +65,6 @@ export function verifyHash(event: Event, newEvent: NewEventRecord): string {
     }
   }
 
-
   const canonicalString = buildHashTarget(event, newEvent);
   const hasher = crypto.createHash("sha256");
   hasher.update(canonicalString);
