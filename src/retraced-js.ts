@@ -5,9 +5,16 @@ import { Event, verifyHash } from "./event";
 const defaultEndpoint = "https://api.retraced.io/v1";
 
 export interface Config {
+  /** projectId is the retraced projectId */
   projectId: string;
+  /** apiKey is an API token for the retraced publisher api */
   apiKey: string;
+  /** endpoint is the retraced api base url, default is `https://api.retraced.io` */
   endpoint?: string;
+  /** component is an identifier for a specific component of a vendor app platform */
+  component?: string;
+  /** version is an identifier for the specific version of this component, usually a git SHA */
+  version?: string;
 }
 
 export interface NewEventRecord {
@@ -40,6 +47,8 @@ export class Client {
       is_failure: event.isFailure,
       is_anonymous: event.isAnonymous,
       fields: event.fields,
+      component: this.config.component,
+      version: this.config.version,
     };
 
     const response = await fetch(`${endpoint}/project/${projectId}/event`, {
