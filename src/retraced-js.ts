@@ -15,6 +15,8 @@ export interface Config {
   component?: string;
   /** version is an identifier for the specific version of this component, usually a git SHA */
   version?: string;
+  /** viewLogAction is the action logged when a Viewer Token is used, default is 'audit.log.view' **/
+  viewLogAction?: string;
 }
 
 export interface NewEventRecord {
@@ -74,12 +76,13 @@ export class Client {
   }
 
   public async getViewerToken(teamId: string, isAdmin?: boolean): Promise<string> {
-    const { endpoint, apiKey, projectId } = this.config;
+    const { endpoint, apiKey, projectId, viewLogAction } = this.config;
 
     const q = url.format({
       query: {
         team_id: teamId,
         is_admin: !!isAdmin,
+        view_log_action: viewLogAction,
       },
     });
     const urlWithQuery = `${endpoint}/project/${projectId}/viewertoken${q}`;
