@@ -15,7 +15,7 @@ export interface Config {
   component?: string;
   /** version is an identifier for the specific version of this component, usually a git SHA */
   version?: string;
-  /** viewLogAction is the action logged when a Viewer Token is used, default is 'audit.log.view' **/
+  /** viewLogAction is the action logged when a Viewer Token is used, default is 'audit.log.view' */
   viewLogAction?: string;
 }
 
