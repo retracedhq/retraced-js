@@ -10,3 +10,6 @@
     
 0.1.4 / 2017-04-25
     * Allow setting `component` and `version` on events via `Client` constructor
+
+0.2.0 / 2017-05-18
+    * displayName is a required parameter to getViewerToken

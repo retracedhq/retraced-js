@@ -75,12 +75,13 @@ export class Client {
     }
   }
 
-  public async getViewerToken(teamId: string, isAdmin?: boolean): Promise<string> {
+  public async getViewerToken(groupId: string, displayName: string, isAdmin?: boolean): Promise<string> {
     const { endpoint, apiKey, projectId, viewLogAction } = this.config;
 
     const q = url.format({
       query: {
-        team_id: teamId,
+        group_id: groupId,
+        display_name: displayName,
         is_admin: !!isAdmin,
         view_log_action: viewLogAction,
       },
