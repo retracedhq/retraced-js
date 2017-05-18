@@ -2,7 +2,7 @@ import "isomorphic-fetch";
 import * as url from "url";
 import { Event, verifyHash } from "./event";
 
-const defaultEndpoint = "https://api.retraced.io/v1";
+const defaultEndpoint = "https://api.retraced.io";
 
 export interface Config {
   /** projectId is the retraced projectId */
@@ -15,7 +15,7 @@ export interface Config {
   component?: string;
   /** version is an identifier for the specific version of this component, usually a git SHA */
   version?: string;
-  /** viewLogAction is the action logged when a Viewer Token is used, default is 'audit.log.view' */
+  /** viewLogAction is the action logged when a Viewer Token is used, default is `audit.log.view` */
   viewLogAction?: string;
 }
 
@@ -53,7 +53,7 @@ export class Client {
       version: this.config.version,
     };
 
-    const response = await fetch(`${endpoint}/project/${projectId}/event`, {
+    const response = await fetch(`${endpoint}/publisher/v1/project/${projectId}/event`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +85,7 @@ export class Client {
         view_log_action: viewLogAction,
       },
     });
-    const urlWithQuery = `${endpoint}/project/${projectId}/viewertoken${q}`;
+    const urlWithQuery = `${endpoint}/publisher/v1/project/${projectId}/viewertoken${q}`;
     const response = await fetch(urlWithQuery, {
       method: "GET",
       headers: {
