@@ -26,7 +26,7 @@ export interface Event {
   action: string;
   group?: Group;
   crud?: string;
-  created?: number;
+  created?: Date;
   actor?: Actor;
   target?: Target;
   sourceIp?: string;

@@ -13,3 +13,6 @@
 
 0.2.0 / 2017-05-18
     * displayName is a required parameter to getViewerToken
+
+0.3.0 / 2017-05-19
+    * Update types to reflect that `event.created` is a Date, should be sent as an ISO8601 string
