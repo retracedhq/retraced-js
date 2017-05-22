@@ -16,3 +16,6 @@
 
 0.3.0 / 2017-05-19
     * Update types to reflect that `event.created` is a Date, should be sent as an ISO8601 string
+
+0.3.1 / 2017-05-22
+    * getViewerToken accepts actorId instead of displayName
