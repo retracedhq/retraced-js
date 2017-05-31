@@ -1,5 +1,6 @@
 import "isomorphic-fetch";
 import * as url from "url";
+import * as _ from "lodash";
 import { Event, verifyHash } from "./event";
 
 const defaultEndpoint = "https://api.retraced.io";
@@ -34,26 +35,32 @@ export class Client {
     this.config = config;
   }
 
-  public async reportEvent(event: Event) {
+  public reportEvent(event: Event): Promise<void> {
+    return this.reportEvents([event]);
+  }
+
+  public async reportEvents(events: Event[]): Promise<void> {
     const { endpoint, apiKey, projectId } = this.config;
 
-    const requestBody: any = {
-      action: event.action,
-      group: event.group,
-      crud: event.crud,
-      created: event.created,
-      actor: event.actor,
-      target: event.target,
-      source_ip: event.sourceIp,
-      description: event.description,
-      is_failure: event.isFailure,
-      is_anonymous: event.isAnonymous,
-      fields: event.fields,
-      component: this.config.component,
-      version: this.config.version,
-    };
+    const requestBody: any = _.map(events, event => {
+      return {
+        action: event.action,
+        group: event.group,
+        crud: event.crud,
+        created: event.created,
+        actor: event.actor,
+        target: event.target,
+        source_ip: event.sourceIp,
+        description: event.description,
+        is_failure: event.isFailure,
+        is_anonymous: event.isAnonymous,
+        fields: event.fields,
+        component: this.config.component,
+        version: this.config.version,
+      };
+    });
 
-    const response = await fetch(`${endpoint}/publisher/v1/project/${projectId}/event`, {
+    const response = await fetch(`${endpoint}/publisher/v1/project/${projectId}/event/bulk`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,11 +74,13 @@ export class Client {
       throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
     }
 
-    const newEvent: NewEventRecord = await response.json();
+    const newEvents: NewEventRecord[] = await response.json();
     try {
-      verifyHash(event, newEvent);
+      _.forEach(newEvents, (newEvent, index) => {
+        verifyHash(events[index], newEvent);
+      });
     } catch (err) {
-      throw new Error(`Our local hash calculation did not match the server's: ${err}`);
+      throw new Error(`Local event hash calculation did not match the server's: ${err}`);
     }
   }
 

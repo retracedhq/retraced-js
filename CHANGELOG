@@ -19,3 +19,6 @@
 
 0.3.1 / 2017-05-22
     * getViewerToken accepts actorId instead of displayName
+
+0.3.2 / 2017-05-30
+    * implement `Retraced.Client#reportEvents(Event[])` for bulk reporting retraced events
