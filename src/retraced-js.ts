@@ -2,7 +2,6 @@ import "isomorphic-fetch";
 import * as url from "url";
 import * as _ from "lodash";
 import { Event, verifyHash } from "./event";
-import { StructuredQuery, EventNode, EventNodeMask, EventsConnection } from "./graphql";
 
 const defaultEndpoint = "https://api.retraced.io";
 
@@ -111,21 +110,5 @@ export class Client {
 
     const responseObj = await response.json();
     return responseObj.token;
-  }
-
-  public async query(q: StructuredQuery, mask: EventNodeMask, pageSize: number): Promise<EventsConnection> {
-    const { endpoint, apiKey, projectId } = this.config;
-
-    const conn = new EventsConnection(
-      `${endpoint}/publisher/v1/project/${projectId}/graphql`,
-      `Token token=${apiKey}`,
-      q,
-      mask,
-      pageSize,
-    );
-
-    await conn.init();
-
-    return conn;
   }
 }
