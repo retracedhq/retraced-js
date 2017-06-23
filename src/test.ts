@@ -170,14 +170,20 @@ import * as Retraced from "./";
           id
           name
           href
-          fields
+          fields {
+            key
+            value
+          }
         }
         target {
           id
           name
           href
           type
-          fields
+          fields {
+            key
+            value
+          }
         }
         crud
         display {
@@ -193,7 +199,10 @@ import * as Retraced from "./";
         loc_subdiv2
         component
         version
-        fields
+        fields {
+          key
+          value
+        }
         raw
       }
     }

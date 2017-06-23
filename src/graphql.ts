@@ -294,23 +294,33 @@ export const graphQLQuery = (mask: EventNodeMask) => {
   }
 
   let actor = "";
-  if (mask.actor && (mask.actor.id || mask.actor.name || mask.actor.href)) {
+  if (mask.actor && (mask.actor.id || mask.actor.name || mask.actor.href || mask.actor.fields)) {
     actor = `actor {
           ${mask.actor.id ? "id" : ""}
           ${mask.actor.name ? "name" : ""}
           ${mask.actor.href ? "href" : ""}
-          ${mask.actor.fields ? "fields" : ""}
+          ${mask.actor.fields ? `fields {
+            key
+            value
+          }` : ""}
         }`;
   }
 
   let target = "";
-  if (mask.target && (mask.target.id || mask.target.name || mask.target.href || mask.target.type)) {
+  if (mask.target && (mask.target.id || mask.target.name || mask.target.href || mask.target.type || mask.target.fields)) {
+    const fields = `fields {
+            key
+            value
+          }`;
     target = `target {
           ${mask.target.id ? "id" : ""}
           ${mask.target.name ? "name" : ""}
           ${mask.target.href ? "href" : ""}
           ${mask.target.type ? "type" : ""}
-          ${mask.target.fields ? "fields" : ""}
+          ${mask.target.fields ? `fields {
+            key
+            value
+          }` : ""}
         }`;
   }
 
@@ -348,7 +358,10 @@ export const graphQLQuery = (mask: EventNodeMask) => {
         ${mask.loc_subdiv2 ? "loc_subdiv2" : "" }
         ${mask.component ? "component" : "" }
         ${mask.version ? "version" : "" }
-        ${mask.fields ? "fields" : "" }
+        ${mask.fields ? `fields {
+          key
+          value
+        }` : "" }
         ${mask.raw ? "raw" : "" }
       }
     }
