@@ -269,8 +269,9 @@ import * as Retraced from "./";
       description: "web login",
       crud: "c",
       actor_id: "user@domain.xyz",
+      actor_name: "Some Actor",
     };
-    const answer = "action:user.*,crud:c,received:2017-06-01T00:00:00.000Z,2017-07-01T00:00:00.000Z,actor.id:user@domain.xyz,description:web login";
+    const answer = `action:"user.*" crud:c received:2017-06-01T00:00:00.000Z,2017-07-01T00:00:00.000Z actor.name:"Some Actor" actor.id:user@domain.xyz description:"web login"`;
     const queryString = Retraced.stringifyStructuredQuery(queryObj);
 
     expect(queryString).to.equal(answer);

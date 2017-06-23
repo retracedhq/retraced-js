@@ -363,7 +363,7 @@ export const stringifyStructuredQuery = (queryObj: StructuredQuery): string => {
   const params: string[] = [];
 
   if (queryObj.action) {
-    params.push(`action:${queryObj.action}`);
+    params.push(`action:"${queryObj.action}"`);
   }
   if (queryObj.crud) {
     params.push(`crud:${queryObj.crud}`);
@@ -379,17 +379,17 @@ export const stringifyStructuredQuery = (queryObj: StructuredQuery): string => {
     params.push(`created:${start},${end}`);
   }
   if (queryObj.actor_name) {
-    params.push(`actor.name:${queryObj.actor_name}`);
+    params.push(`actor.name:"${queryObj.actor_name}"`);
   }
   if (queryObj.actor_id) {
     params.push(`actor.id:${queryObj.actor_id}`);
   }
   if (queryObj.description) {
-    params.push(`description:${queryObj.description}`);
+    params.push(`description:"${queryObj.description}"`);
   }
   if (queryObj.location) {
-    params.push(`location:${queryObj.location}`);
+    params.push(`location:"${queryObj.location}"`);
   }
 
-  return params.join(",");
+  return params.join(" ");
 };
