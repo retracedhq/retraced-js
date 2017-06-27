@@ -9,12 +9,14 @@ export interface Target {
   name?: string;
   href?: string;
   type?: string;
+  fields?: { [key: string]: string; };
 }
 
 export interface Actor {
   id: string;
   name?: string;
   href?: string;
+  fields?: { [key: string]: string; };
 }
 
 export interface Group {

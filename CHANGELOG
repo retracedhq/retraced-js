@@ -31,3 +31,6 @@
 
 0.3.5 / 2017-06-23
     * Return key and value from GraphQL for fields requests
+
+0.3.6 / 2017-06-26
+	* Targets and actors may have fields subfields
