@@ -36,11 +36,52 @@ export class Client {
     this.config = config;
   }
 
-  public reportEvent(event: Event): Promise<void> {
-    return this.reportEvents([event]);
+  // confirms the hash and returns the ID of the event
+  public async reportEvent(event: Event): Promise<string> {
+    const { endpoint, apiKey, projectId } = this.config;
+
+    const requestBody: any = {
+      action: event.action,
+      group: event.group,
+      crud: event.crud,
+      created: event.created,
+      actor: event.actor,
+      target: event.target,
+      source_ip: event.sourceIp,
+      description: event.description,
+      is_failure: event.isFailure,
+      is_anonymous: event.isAnonymous,
+      fields: event.fields,
+      component: this.config.component,
+      version: this.config.version,
+    };
+
+    const response = await fetch(`${endpoint}/publisher/v1/project/${projectId}/event`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Token token=${apiKey}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
+    }
+
+    const newEvent: NewEventRecord = await response.json();
+    try {
+      verifyHash(event, newEvent);
+    } catch (err) {
+      throw new Error(`Local event hash calculation did not match the server's: ${err}`);
+    }
+
+    return newEvent.id;
   }
 
-  public async reportEvents(events: Event[]): Promise<void> {
+  // confirms the hash and returns the IDs of the new events
+  public async reportEvents(events: Event[]): Promise<string[]> {
     const { endpoint, apiKey, projectId } = this.config;
 
     const requestBody: any = _.map(events, event => {
@@ -83,6 +124,8 @@ export class Client {
     } catch (err) {
       throw new Error(`Local event hash calculation did not match the server's: ${err}`);
     }
+
+    return newEvents.map((newEvent) => newEvent.id);
   }
 
   public async getViewerToken(groupId: string, actorId: string, isAdmin?: boolean): Promise<string> {
