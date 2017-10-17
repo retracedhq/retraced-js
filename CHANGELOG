@@ -34,3 +34,7 @@
 
 0.3.6 / 2017-06-26
 	* Targets and actors may have fields subfields
+
+0.4.0 / 2017-10-17
+	* reportEvent and reportEvents return the new event ID(s)
+	* reportEvent uses the single /event endpoint.
