@@ -4,11 +4,9 @@ machine:
   pre:
     - mkdir ~/.yarn-cache
   node:
-    version: 7.8.0
+    version: 8.2.0
 
 dependencies:
-  pre:
-    - npm i -g yarn
   override:
     - yarn
 
