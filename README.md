@@ -37,7 +37,7 @@ async function createNewRecord(request) {
       id: "12345",
       name: "My Rad Customer",
     }
-		crud: "C",
+		crud: "c",
 		sourceIp: request.ip,
 		actor: {
 			id: "ultra.employee@customertowne.xyz",
