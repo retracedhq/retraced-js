@@ -33,9 +33,12 @@ async function createNewRecord(request) {
 	// Now construct the audit event to be reported to Retraced.
 	const event = {
 		action: "some.record.created",
-		teamId: "My Rad Customer",
-		crud: "C",
-		source_ip: request.ip,
+		group: {
+      id: "12345",
+      name: "My Rad Customer",
+    }
+		crud: "c",
+		sourceIp: request.ip,
 		actor: {
 			id: "ultra.employee@customertowne.xyz",
 			displayName: "Ultra Employee",
@@ -51,7 +54,7 @@ async function createNewRecord(request) {
 	// The Retraced client's methods are asynchronous.
 	// You can "fire and forget" them...
 	retraced.reportEvent(event);
-	
+
 	// ... "await" them...
 	console.log("Reporting...");
 	await retraced.reportEvent(event);
