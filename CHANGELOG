@@ -38,3 +38,6 @@
 0.4.0 / 2017-10-17
 	* reportEvent and reportEvents return the new event ID(s)
 	* reportEvent uses the single /event endpoint.
+
+0.4.1 / 2018-10-31
+	* log HTTP response body on graphql API errors

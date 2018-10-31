@@ -81,7 +81,7 @@ export class EventsConnection {
     });
 
     if (!response.ok) {
-      throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
+      throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText} ${response.body}`);
     }
 
     const { data }: GraphQLSearchData = await response.json();
