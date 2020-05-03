@@ -1,52 +1,55 @@
 {
-    "name": "retraced",
-    "author": "Replicated, Inc.",
-    "version": "0.4.1",
-    "engines": {
-        "node": ">=4.3.2"
-    },
-    "license": "MIT",
-    "repository": "https://github.com/retracedhq/retraced-js.git",
-    "bugs": {
-        "email": "bugs@retraced.io",
-        "url": "https://github.com/retracedhq/retraced-js/issues"
-    },
-    "description": "The official NodeJS client for interacting with the Retraced audit logging API.",
-    "keywords": [
-        "audit",
-        "log",
-        "retraced",
-        "replicated"
-    ],
-    "contributors": [
-        "Joe Toscano <jtoscano42@gmail.com>"
-    ],
-    "main": "lib/index.js",
-    "typings": "lib/index",
-    "files": [
-        "lib/"
-    ],
-    "scripts": {
-        "prepublish": "rm -rf ./lib && tslint --project ./tsconfig.json && tsc -p .",
-        "test": "rm -rf ./lib && tsc -p . && mocha ./lib/test.js",
-        "publish-if-version-changed": "publish"
-    },
-    "devDependencies": {
-        "@types/chai": "^3.4.34",
-        "@types/chai-as-promised": "^0.0.29",
-        "@types/isomorphic-fetch": "^0.0.31",
-        "@types/lodash": "^4.14.52",
-        "@types/node": "^7.0.0",
-        "chai": "^3.5.0",
-        "chai-as-promised": "^6.0.0",
-        "mocha": "^3.2.0",
-        "mocha-typescript": "^1.0.15",
-        "publish": "^0.6.0",
-        "tslint": "^4.3.1",
-        "typescript": "^2.1.5"
-    },
-    "dependencies": {
-        "isomorphic-fetch": "^2.2.1",
-        "lodash": "^4.17.4"
-    }
+  "name": "retraced",
+  "author": "Replicated, Inc.",
+  "version": "0.4.1",
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/retracedhq/retraced-js.git",
+  "bugs": {
+    "email": "bugs@retraced.io",
+    "url": "https://github.com/retracedhq/retraced-js/issues"
+  },
+  "description": "The official NodeJS client for interacting with the Retraced audit logging API.",
+  "keywords": [
+    "audit",
+    "log",
+    "retraced",
+    "replicated"
+  ],
+  "contributors": [
+    "Joe Toscano <jtoscano42@gmail.com>"
+  ],
+  "main": "lib/index.js",
+  "typings": "lib/index",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "prepublish": "npm run snyk-protect && rm -rf ./lib && tslint --project ./tsconfig.json && tsc -p .",
+    "test": "rm -rf ./lib && tsc -p . && mocha ./lib/test.js",
+    "publish-if-version-changed": "publish",
+    "snyk-protect": "snyk protect"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/chai-as-promised": "^0.0.29",
+    "@types/isomorphic-fetch": "^0.0.31",
+    "@types/lodash": "^4.14.52",
+    "@types/node": "^7.0.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "mocha": "^3.2.0",
+    "mocha-typescript": "^1.0.15",
+    "publish": "^0.6.0",
+    "tslint": "^4.3.1",
+    "typescript": "^2.1.5"
+  },
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
+    "snyk": "^1.317.0"
+  },
+  "snyk": true
 }
