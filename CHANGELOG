@@ -41,3 +41,6 @@
 
 0.4.1 / 2018-10-31
 	* log HTTP response body on graphql API errors
+
+0.4.2 / 2021-07-01
+	* fix read property on undefined

@@ -1767,6 +1767,14 @@ resolve@^1.1.7:
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.2.0.tgz#9589c3f2f6149d1417a40becc1663db6ec6bc26c"
   integrity sha1-lYnD8vYUnRQXpAvswWY9tuxrwmw=
 
+retraced@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/retraced/-/retraced-0.4.1.tgz#78bacd358c9a25f1db4e0dbc9a042c7ba7dd5d88"
+  integrity sha512-IEcwb60+J2eWQ3h4IsS0A0YLiMa1cC/W2f+5YnEL4su1jDO6AXoMMg9NgMy3qgczciVpmJRXBwBgLUg0W9UF4w==
+  dependencies:
+    isomorphic-fetch "^2.2.1"
+    lodash "^4.17.4"
+
 retry@^0.10.0, retry@~0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/retry/-/retry-0.10.1.tgz#e76388d217992c252750241d3d3956fed98d8ff4"

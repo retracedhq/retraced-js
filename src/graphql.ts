@@ -92,7 +92,10 @@ export class EventsConnection {
     });
     this.currentPageNumber = this.cursors.length;
     if (data.search.pageInfo.hasPreviousPage) {
-      this.cursors.push(_.last(data.search.edges).cursor);
+      const last = _.last(data.search.edges);
+      if (last) {
+        this.cursors.push(last.cursor);
+      }
     }
   }
 
