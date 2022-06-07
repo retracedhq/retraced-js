@@ -41,3 +41,7 @@
 
 0.4.1 / 2018-10-31
 	* log HTTP response body on graphql API errors
+
+0.4.2 / 2022-06-06
+    * Upgrade TS 2 to 4
+    * Upgrade dependencies

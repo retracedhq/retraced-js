@@ -1,4 +1,4 @@
-import "isomorphic-fetch";
+import fetch from "node-fetch";
 import * as _ from "lodash";
 
 export interface GraphQLSearchData {
@@ -84,7 +84,7 @@ export class EventsConnection {
       throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText} ${response.body}`);
     }
 
-    const { data }: GraphQLSearchData = await response.json();
+    const { data }: GraphQLSearchData = await response.json() as GraphQLSearchData;
 
     this.totalCount = data.search.totalCount;
     this.currentResults = data.search.edges.map((edge) => {
@@ -92,7 +92,7 @@ export class EventsConnection {
     });
     this.currentPageNumber = this.cursors.length;
     if (data.search.pageInfo.hasPreviousPage) {
-      this.cursors.push(_.last(data.search.edges).cursor);
+      this.cursors.push((_.last(data.search.edges) as any).cursor);
     }
   }
 
