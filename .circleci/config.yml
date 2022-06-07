@@ -16,6 +16,14 @@ jobs:
       - run:
           name: build
           command: yarn
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
       - run:
           name: test
           command: yarn test
