@@ -1,4 +1,4 @@
-import "isomorphic-fetch";
+import fetch from "node-fetch";
 import * as url from "url";
 import * as _ from "lodash";
 import { Event, verifyHash } from "./event";
@@ -70,7 +70,7 @@ export class Client {
       throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
     }
 
-    const newEvent: NewEventRecord = await response.json();
+    const newEvent: NewEventRecord = await response.json() as NewEventRecord;
     try {
       verifyHash(event, newEvent);
     } catch (err) {
@@ -116,7 +116,7 @@ export class Client {
       throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
     }
 
-    const newEvents: NewEventRecord[] = await response.json();
+    const newEvents: NewEventRecord[] = await response.json() as NewEventRecord[];
     try {
       _.forEach(newEvents, (newEvent, index) => {
         verifyHash(events[index], newEvent);
@@ -152,7 +152,7 @@ export class Client {
       throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
     }
 
-    const responseObj = await response.json();
+    const responseObj = (await response.json()) as any;
     return responseObj.token;
   }
 
