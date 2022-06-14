@@ -10,7 +10,7 @@ import * as Retraced from "./";
       projectId: "aaaahahahahahahaha",
     });
 
-    expect(garbo).to.exist;
+    console.log(expect(garbo).to.exist);
   }
 
   @test public "should fail the hash check"() {
@@ -40,7 +40,7 @@ import * as Retraced from "./";
       explosion = err;
     }
 
-    expect(explosion).to.exist;
+    console.log(expect(explosion).to.exist);
   }
 
   @test public "should pass the hash check"() {
@@ -78,7 +78,7 @@ import * as Retraced from "./";
       explosion = err;
     }
 
-    expect(explosion).to.not.exist;
+    console.log(expect(explosion).to.not.exist);
   }
 
   @test public "should generate a hash target without a group specified"() {
