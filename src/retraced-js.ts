@@ -61,7 +61,7 @@ export class Client {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Token token=${apiKey}`,
+        Authorization: `token=${apiKey}`,
       },
       body: JSON.stringify(requestBody),
     });
