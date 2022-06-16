@@ -103,14 +103,14 @@ export class Client {
     });
 
     const response = await fetch(`${endpoint}/publisher/v1/project/${projectId}/event/bulk`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Token token=${apiKey}`,
-      },
-      body: JSON.stringify(requestBody),
-    });
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `token=${apiKey}`,
+        },
+        body: JSON.stringify({ events: requestBody }),
+      });
 
     if (!response.ok) {
       throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
