@@ -1,7 +1,6 @@
 version: 2
 
 jobs:
-
   test:
     working_directory: ~/repo
     environment:
@@ -28,7 +27,6 @@ jobs:
           name: test
           command: yarn test
 
-
   deploy:
     working_directory: ~/repo
     docker:
@@ -54,4 +52,4 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - main
