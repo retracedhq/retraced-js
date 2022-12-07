@@ -1,15 +1,17 @@
-import { suite, test, slow, timeout, skip, only } from "mocha-typescript";
+import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
 
 import * as Retraced from "./";
 
-@suite class RetracedJSTests {
+@suite
+class RetracedJSTests {
   @test public "should instantiate"() {
     const garbo = new Retraced.Client({
       apiKey: "lmao rn tbqh",
       projectId: "aaaahahahahahahaha",
     });
 
+    // tslint:disable-next-line:no-unused-expression
     expect(garbo).to.exist;
   }
 
@@ -40,6 +42,7 @@ import * as Retraced from "./";
       explosion = err;
     }
 
+    // tslint:disable-next-line:no-unused-expression
     expect(explosion).to.exist;
   }
 
@@ -78,6 +81,7 @@ import * as Retraced from "./";
       explosion = err;
     }
 
+    // tslint:disable-next-line:no-unused-expression
     expect(explosion).to.not.exist;
   }
 
@@ -104,11 +108,13 @@ import * as Retraced from "./";
       hash: "ignored",
     };
 
-    const expected = "kfbr392:even.more.of.a.test:some_object01234:user@domain.xyz:::1:0:abc%3Dxyz=nothing special;";
+    const expected =
+      "kfbr392:even.more.of.a.test:some_object01234:user@domain.xyz:::1:0:abc%3Dxyz=nothing special;";
     expect(Retraced.buildHashTarget(testEvent, fakeNew)).to.equal(expected);
   }
 
-  @test public "should generate a GraphQL query string requesting all fields"() {
+  @test
+  public "should generate a GraphQL query string requesting all fields"() {
     const mask: Retraced.EventNodeMask = {
       id: true,
       action: true,
@@ -212,7 +218,8 @@ import * as Retraced from "./";
     expect(output).to.equal(answer);
   }
 
-  @test public "should generate a GraphQL query string requesting a subset of available fields"() {
+  @test
+  public "should generate a GraphQL query string requesting a subset of available fields"() {
     const mask: Retraced.EventNodeMask = {
       action: true,
       actor: {
@@ -243,18 +250,22 @@ import * as Retraced from "./";
     expect(output).to.equal(answer);
   }
 
-  @test public "should format received, created, and fields on raw event node response"() {
+  @test
+  public "should format received, created, and fields on raw event node response"() {
     const raw: Retraced.RawEventNode = {
       action: "user.login",
       created: "2017-06-01T00:00:01Z",
       received: "2017-06-01T00:00:02Z",
-      fields: [{
-        key: "oauth",
-        value: "google",
-      }, {
-        key: "tries",
-        value: "2",
-      }],
+      fields: [
+        {
+          key: "oauth",
+          value: "google",
+        },
+        {
+          key: "tries",
+          value: "2",
+        },
+      ],
     };
     const answer: Retraced.EventNode = {
       action: "user.login",

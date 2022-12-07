@@ -96,7 +96,7 @@ export class EventsConnection {
     }
   }
 
-};
+}
 
 // https://preview.retraced.io/documentation/getting-started/searching-for-events/#structured-advanced-search
 export interface StructuredQuery {
