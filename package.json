@@ -1,11 +1,11 @@
 {
-    "name": "retraced",
+    "name": "@retraced-hq/retraced",
     "author": "Replicated, Inc.",
     "version": "0.4.3",
     "engines": {
         "node": ">=14.x"
     },
-    "license": "MIT",
+    "license": "Apache-2.0 license",
     "repository": "https://github.com/retracedhq/retraced-js.git",
     "bugs": {
         "email": "bugs@retraced.io",
