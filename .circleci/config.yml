@@ -39,7 +39,7 @@ jobs:
           name: publish
           command: |
             echo "//registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN" >> ~/.npmrc
-            npm run publish-if-version-changed
+            npm run publish
 
 workflows:
   version: 2
@@ -52,4 +52,4 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - release

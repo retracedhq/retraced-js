@@ -28,8 +28,7 @@
     ],
     "scripts": {
         "prepublish": "rm -rf ./lib && tslint --project ./tsconfig.json && tsc -p .",
-        "test": "rm -rf ./lib && tsc -p . && mocha ./lib/test.js",
-        "publish-if-version-changed": "publish"
+        "test": "rm -rf ./lib && tsc -p . && mocha ./lib/test.js"
     },
     "devDependencies": {
         "@types/chai": "4.3.1",
@@ -41,7 +40,6 @@
         "chai-as-promised": "7.1.1",
         "mocha": "10.0.0",
         "mocha-typescript": "1.0.15",
-        "publish": "0.6.0",
         "tslint": "5.20.1",
         "typescript": "4.7.3"
     },
