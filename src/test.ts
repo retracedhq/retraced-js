@@ -1,16 +1,17 @@
-import { suite, test, slow, timeout, skip, only } from "mocha-typescript";
+import { suite, test } from "mocha-typescript";
 import { expect } from "chai";
 
 import * as Retraced from "./";
 
-@suite class RetracedJSTests {
+@suite
+class RetracedJSTests {
   @test public "should instantiate"() {
     const garbo = new Retraced.Client({
       apiKey: "lmao rn tbqh",
       projectId: "aaaahahahahahahaha",
     });
 
-    console.log(expect(garbo).to.exist);
+    expect(garbo).to.exist;
   }
 
   @test public "should fail the hash check"() {
@@ -40,7 +41,7 @@ import * as Retraced from "./";
       explosion = err;
     }
 
-    console.log(expect(explosion).to.exist);
+    expect(explosion).to.exist;
   }
 
   @test public "should pass the hash check"() {
@@ -78,7 +79,7 @@ import * as Retraced from "./";
       explosion = err;
     }
 
-    console.log(expect(explosion).to.not.exist);
+    expect(explosion).to.not.exist;
   }
 
   @test public "should generate a hash target without a group specified"() {
@@ -104,11 +105,13 @@ import * as Retraced from "./";
       hash: "ignored",
     };
 
-    const expected = "kfbr392:even.more.of.a.test:some_object01234:user@domain.xyz:::1:0:abc%3Dxyz=nothing special;";
+    const expected =
+      "kfbr392:even.more.of.a.test:some_object01234:user@domain.xyz:::1:0:abc%3Dxyz=nothing special;";
     expect(Retraced.buildHashTarget(testEvent, fakeNew)).to.equal(expected);
   }
 
-  @test public "should generate a GraphQL query string requesting all fields"() {
+  @test
+  public "should generate a GraphQL query string requesting all fields"() {
     const mask: Retraced.EventNodeMask = {
       id: true,
       action: true,
@@ -212,7 +215,8 @@ import * as Retraced from "./";
     expect(output).to.equal(answer);
   }
 
-  @test public "should generate a GraphQL query string requesting a subset of available fields"() {
+  @test
+  public "should generate a GraphQL query string requesting a subset of available fields"() {
     const mask: Retraced.EventNodeMask = {
       action: true,
       actor: {
@@ -243,18 +247,22 @@ import * as Retraced from "./";
     expect(output).to.equal(answer);
   }
 
-  @test public "should format received, created, and fields on raw event node response"() {
+  @test
+  public "should format received, created, and fields on raw event node response"() {
     const raw: Retraced.RawEventNode = {
       action: "user.login",
       created: "2017-06-01T00:00:01Z",
       received: "2017-06-01T00:00:02Z",
-      fields: [{
-        key: "oauth",
-        value: "google",
-      }, {
-        key: "tries",
-        value: "2",
-      }],
+      fields: [
+        {
+          key: "oauth",
+          value: "google",
+        },
+        {
+          key: "tries",
+          value: "2",
+        },
+      ],
     };
     const answer: Retraced.EventNode = {
       action: "user.login",
