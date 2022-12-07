@@ -8,10 +8,10 @@ export interface GraphQLSearchData {
       pageInfo: {
         hasPreviousPage: boolean;
       };
-      edges: Array<{
+      edges: {
         cursor: string;
         node: RawEventNode;
-      }>;
+      }[];
     };
   };
 }
@@ -32,7 +32,7 @@ export class EventsConnection {
     private readonly authorization: string,
     private readonly query: StructuredQuery,
     private readonly mask: EventNodeMask,
-    public readonly pageSize: number,
+    public readonly pageSize: number
   ) {
     this.cursors = [];
     this.totalCount = 0;
@@ -81,10 +81,13 @@ export class EventsConnection {
     });
 
     if (!response.ok) {
-      throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText} ${response.body}`);
+      throw new Error(
+        `Unexpected HTTP response: ${response.status} ${response.statusText} ${response.body}`
+      );
     }
 
-    const { data }: GraphQLSearchData = await response.json() as GraphQLSearchData;
+    const { data }: GraphQLSearchData =
+      (await response.json()) as GraphQLSearchData;
 
     this.totalCount = data.search.totalCount;
     this.currentResults = data.search.edges.map((edge) => {
@@ -95,7 +98,6 @@ export class EventsConnection {
       this.cursors.push((_.last(data.search.edges) as any).cursor);
     }
   }
-
 }
 
 // https://preview.retraced.io/documentation/getting-started/searching-for-events/#structured-advanced-search
@@ -217,14 +219,14 @@ export interface EventNode {
     id?: string;
     name?: string;
     href?: string;
-    fields?: { [key: string]: string; };
+    fields?: { [key: string]: string };
   };
   target?: {
     id?: string;
     name?: string;
     href?: string;
     type?: string;
-    fields?: { [key: string]: string; };
+    fields?: { [key: string]: string };
   };
   crud?: "c" | "r" | "u" | "d";
   display?: {
@@ -236,7 +238,7 @@ export interface EventNode {
   country?: string;
   received?: Date;
   created?: Date;
-  fields?: { [key: string]: string; };
+  fields?: { [key: string]: string };
   canonical_time?: Date;
   component?: string;
   version?: string;
@@ -294,20 +296,34 @@ export const graphQLQuery = (mask: EventNodeMask) => {
   }
 
   let actor = "";
-  if (mask.actor && (mask.actor.id || mask.actor.name || mask.actor.href || mask.actor.fields)) {
+  if (
+    mask.actor &&
+    (mask.actor.id || mask.actor.name || mask.actor.href || mask.actor.fields)
+  ) {
     actor = `actor {
           ${mask.actor.id ? "id" : ""}
           ${mask.actor.name ? "name" : ""}
           ${mask.actor.href ? "href" : ""}
-          ${mask.actor.fields ? `fields {
+          ${
+            mask.actor.fields
+              ? `fields {
             key
             value
-          }` : ""}
+          }`
+              : ""
+          }
         }`;
   }
 
   let target = "";
-  if (mask.target && (mask.target.id || mask.target.name || mask.target.href || mask.target.type || mask.target.fields)) {
+  if (
+    mask.target &&
+    (mask.target.id ||
+      mask.target.name ||
+      mask.target.href ||
+      mask.target.type ||
+      mask.target.fields)
+  ) {
     const fields = `fields {
             key
             value
@@ -317,10 +333,14 @@ export const graphQLQuery = (mask: EventNodeMask) => {
           ${mask.target.name ? "name" : ""}
           ${mask.target.href ? "href" : ""}
           ${mask.target.type ? "type" : ""}
-          ${mask.target.fields ? `fields {
+          ${
+            mask.target.fields
+              ? `fields {
             key
             value
-          }` : ""}
+          }`
+              : ""
+          }
         }`;
   }
 
@@ -340,35 +360,42 @@ export const graphQLQuery = (mask: EventNodeMask) => {
     edges {
       cursor
       node {
-        ${mask.id ? "id" : "" }
-        ${mask.action ? "action" : "" }
-        ${mask.description ? "description" : "" }
+        ${mask.id ? "id" : ""}
+        ${mask.action ? "action" : ""}
+        ${mask.description ? "description" : ""}
         ${group}
         ${actor}
         ${target}
-        ${mask.crud ? "crud" : "" }
+        ${mask.crud ? "crud" : ""}
         ${display}
-        ${mask.received ? "received" : "" }
-        ${mask.created ? "created" : "" }
-        ${mask.canonical_time ? "canonical_time" : "" }
-        ${mask.is_failure ? "is_failure" : "" }
-        ${mask.is_anonymous ? "is_anonymous" : "" }
-        ${mask.source_ip ? "country" : "" }
-        ${mask.loc_subdiv1 ? "loc_subdiv1" : "" }
-        ${mask.loc_subdiv2 ? "loc_subdiv2" : "" }
-        ${mask.component ? "component" : "" }
-        ${mask.version ? "version" : "" }
-        ${mask.fields ? `fields {
+        ${mask.received ? "received" : ""}
+        ${mask.created ? "created" : ""}
+        ${mask.canonical_time ? "canonical_time" : ""}
+        ${mask.is_failure ? "is_failure" : ""}
+        ${mask.is_anonymous ? "is_anonymous" : ""}
+        ${mask.source_ip ? "country" : ""}
+        ${mask.loc_subdiv1 ? "loc_subdiv1" : ""}
+        ${mask.loc_subdiv2 ? "loc_subdiv2" : ""}
+        ${mask.component ? "component" : ""}
+        ${mask.version ? "version" : ""}
+        ${
+          mask.fields
+            ? `fields {
           key
           value
-        }` : "" }
-        ${mask.raw ? "raw" : "" }
+        }`
+            : ""
+        }
+        ${mask.raw ? "raw" : ""}
       }
     }
   }
 }`;
 
-  return q.split(/\n/).filter((line) => line.trim()).join("\n");
+  return q
+    .split(/\n/)
+    .filter((line) => line.trim())
+    .join("\n");
 };
 
 // Convert a StructuredQuery object to string for the GraphQL search operation.
@@ -382,12 +409,18 @@ export const stringifyStructuredQuery = (queryObj: StructuredQuery): string => {
     params.push(`crud:${queryObj.crud}`);
   }
   if (queryObj.received_start || queryObj.received_end) {
-    const start = queryObj.received_start ? queryObj.received_start.toISOString() : "";
-    const end = queryObj.received_end ? queryObj.received_end.toISOString() : "";
+    const start = queryObj.received_start
+      ? queryObj.received_start.toISOString()
+      : "";
+    const end = queryObj.received_end
+      ? queryObj.received_end.toISOString()
+      : "";
     params.push(`received:${start},${end}`);
   }
   if (queryObj.created_start || queryObj.created_end) {
-    const start = queryObj.created_start ? queryObj.created_start.toISOString() : "";
+    const start = queryObj.created_start
+      ? queryObj.created_start.toISOString()
+      : "";
     const end = queryObj.created_end ? queryObj.created_end.toISOString() : "";
     params.push(`created:${start},${end}`);
   }
