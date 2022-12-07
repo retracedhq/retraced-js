@@ -11,6 +11,7 @@ class RetracedJSTests {
       projectId: "aaaahahahahahahaha",
     });
 
+    // tslint:disable-next-line:no-unused-expression
     expect(garbo).to.exist;
   }
 
@@ -41,6 +42,7 @@ class RetracedJSTests {
       explosion = err;
     }
 
+    // tslint:disable-next-line:no-unused-expression
     expect(explosion).to.exist;
   }
 
@@ -79,6 +81,7 @@ class RetracedJSTests {
       explosion = err;
     }
 
+    // tslint:disable-next-line:no-unused-expression
     expect(explosion).to.not.exist;
   }
 
