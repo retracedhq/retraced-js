@@ -1,7 +1,7 @@
 {
     "name": "@retraced-hq/retraced",
     "author": "Replicated, Inc.",
-    "version": "0.4.3",
+    "version": "0.4.5",
     "engines": {
         "node": ">=14.x"
     },
@@ -24,7 +24,7 @@
     "main": "lib/index.js",
     "typings": "lib/index",
     "files": [
-        "lib/"
+        "lib"
     ],
     "scripts": {
         "prepublish": "rm -rf ./lib && tslint --project ./tsconfig.json && tsc -p .",
