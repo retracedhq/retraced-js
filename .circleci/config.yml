@@ -1,12 +1,15 @@
 version: 2
 
+defaults: &defaults
+  docker:
+    - image: cimg/node:16.16
+  working_directory: ~/repo
+
 jobs:
   test:
-    working_directory: ~/repo
+    <<: *defaults
     environment:
       MOCHA_FILE: test-results/mocha/test-results.xml
-    docker:
-      - image: circleci/node:17
     steps:
       - checkout
       - restore_cache:
@@ -28,9 +31,7 @@ jobs:
           command: yarn test
 
   deploy:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:17
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
