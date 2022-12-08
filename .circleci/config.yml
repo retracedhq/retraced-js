@@ -49,6 +49,8 @@ workflows:
       - deploy:
           requires:
             - test
+          context:
+            - retracedhq
           filters:
             branches:
               only:
