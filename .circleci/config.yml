@@ -4,7 +4,6 @@ defaults: &defaults
   resource_class: large
   docker:
     - image: cimg/node:16.16
-  working_directory: ~/repo
 
 jobs:
   test:
@@ -13,20 +12,9 @@ jobs:
       MOCHA_FILE: test-results/mocha/test-results.xml
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           name: build
-          command: yarn
-      - persist_to_workspace:
-          root: .
-          paths:
-            - node_modules
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
+          command: yarn install
       - run:
           name: test
           command: yarn test
@@ -35,9 +23,10 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
-          at: .
-      - deploy:
+      - run:
+          name: Yarn
+          command: "yarn install"
+      -run :
           name: publish
           command: |
             echo "//registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN" >> ~/.npmrc
