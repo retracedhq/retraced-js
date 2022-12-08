@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Yarn
           command: "yarn install"
-      -run :
+      - run:
           name: publish
           command: |
             echo "//registry.npmjs.org/:_authToken=$NPM_PUBLISH_TOKEN" >> ~/.npmrc
@@ -44,5 +44,4 @@ workflows:
             - retracedhq
           filters:
             branches:
-              only:
-                - release
+              only: release
