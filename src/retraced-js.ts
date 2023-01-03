@@ -150,15 +150,19 @@ export class Client {
   ): Promise<string> {
     const { endpoint, apiKey, projectId, viewLogAction } = this.config;
 
-    const q = url.format({
-      query: {
-        group_id: groupId,
-        actor_id: actorId,
-        is_admin: !!isAdmin,
-        view_log_action: viewLogAction,
-      },
-    });
-    const urlWithQuery = `${endpoint}/publisher/v1/project/${projectId}/viewertoken${q}`;
+    const params = {
+      group_id: groupId,
+      actor_id: actorId,
+      is_admin: "" + !!isAdmin,
+    } as { [key: string]: string };
+
+    if (viewLogAction) {
+      params.view_log_action = viewLogAction;
+    }
+
+    const q = new URLSearchParams(params);
+
+    const urlWithQuery = `${endpoint}/publisher/v1/project/${projectId}/viewertoken?${q.toString()}`;
     const response = await fetch(urlWithQuery, {
       method: "GET",
       headers: {
