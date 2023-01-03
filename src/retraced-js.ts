@@ -2,16 +2,16 @@ import fetch from "node-fetch";
 import * as url from "url";
 import * as _ from "lodash";
 import { Event, verifyHash } from "./event";
-import { StructuredQuery, EventNode, EventNodeMask, EventsConnection } from "./graphql";
+import { StructuredQuery, EventNodeMask, EventsConnection } from "./graphql";
 
-const defaultEndpoint = "https://api.retraced.io";
+const defaultEndpoint = "http://localhost:3000/auditlog";
 
 export interface Config {
   /** projectId is the retraced projectId */
   projectId: string;
   /** apiKey is an API token for the retraced publisher api */
   apiKey: string;
-  /** endpoint is the retraced api base url, default is `https://api.retraced.io` */
+  /** endpoint is the retraced api base url, default is `http://localhost:3000/auditlog` */
   endpoint?: string;
   /** component is an identifier for a specific component of a vendor app platform */
   component?: string;
@@ -56,25 +56,32 @@ export class Client {
       version: this.config.version,
     };
 
-    const response = await fetch(`${endpoint}/publisher/v1/project/${projectId}/event`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `token=${apiKey}`,
-      },
-      body: JSON.stringify(requestBody),
-    });
+    const response = await fetch(
+      `${endpoint}/publisher/v1/project/${projectId}/event`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `token=${apiKey}`,
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
 
     if (!response.ok) {
-      throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Unexpected HTTP response: ${response.status} ${response.statusText}`
+      );
     }
 
-    const newEvent: NewEventRecord = await response.json() as NewEventRecord;
+    const newEvent: NewEventRecord = (await response.json()) as NewEventRecord;
     try {
       verifyHash(event, newEvent);
     } catch (err) {
-      throw new Error(`Local event hash calculation did not match the server's: ${err}`);
+      throw new Error(
+        `Local event hash calculation did not match the server's: ${err}`
+      );
     }
 
     return newEvent.id;
@@ -84,7 +91,7 @@ export class Client {
   public async reportEvents(events: Event[]): Promise<string[]> {
     const { endpoint, apiKey, projectId } = this.config;
 
-    const requestBody: any = _.map(events, event => {
+    const requestBody: any = _.map(events, (event) => {
       return {
         action: event.action,
         group: event.group,
@@ -102,7 +109,9 @@ export class Client {
       };
     });
 
-    const response = await fetch(`${endpoint}/publisher/v1/project/${projectId}/event/bulk`, {
+    const response = await fetch(
+      `${endpoint}/publisher/v1/project/${projectId}/event/bulk`,
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,25 +119,35 @@ export class Client {
           Authorization: `token=${apiKey}`,
         },
         body: JSON.stringify({ events: requestBody }),
-      });
+      }
+    );
 
     if (!response.ok) {
-      throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Unexpected HTTP response: ${response.status} ${response.statusText}`
+      );
     }
 
-    const newEvents: NewEventRecord[] = await response.json() as NewEventRecord[];
+    const newEvents: NewEventRecord[] =
+      (await response.json()) as NewEventRecord[];
     try {
       _.forEach(newEvents, (newEvent, index) => {
         verifyHash(events[index], newEvent);
       });
     } catch (err) {
-      throw new Error(`Local event hash calculation did not match the server's: ${err}`);
+      throw new Error(
+        `Local event hash calculation did not match the server's: ${err}`
+      );
     }
 
     return newEvents.map((newEvent) => newEvent.id);
   }
 
-  public async getViewerToken(groupId: string, actorId: string, isAdmin?: boolean): Promise<string> {
+  public async getViewerToken(
+    groupId: string,
+    actorId: string,
+    isAdmin?: boolean
+  ): Promise<string> {
     const { endpoint, apiKey, projectId, viewLogAction } = this.config;
 
     const q = url.format({
@@ -149,14 +168,20 @@ export class Client {
     });
 
     if (!response.ok) {
-      throw new Error(`Unexpected HTTP response: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Unexpected HTTP response: ${response.status} ${response.statusText}`
+      );
     }
 
     const responseObj = (await response.json()) as any;
     return responseObj.token;
   }
 
-  public async query(q: StructuredQuery, mask: EventNodeMask, pageSize: number): Promise<EventsConnection> {
+  public async query(
+    q: StructuredQuery,
+    mask: EventNodeMask,
+    pageSize: number
+  ): Promise<EventsConnection> {
     const { endpoint, apiKey, projectId } = this.config;
 
     const conn = new EventsConnection(
@@ -164,7 +189,7 @@ export class Client {
       `Token token=${apiKey}`,
       q,
       mask,
-      pageSize,
+      pageSize
     );
 
     await conn.init();
