@@ -1,5 +1,4 @@
 import fetch from "node-fetch";
-import * as url from "url";
 import * as _ from "lodash";
 import { Event, verifyHash } from "./event";
 import { StructuredQuery, EventNodeMask, EventsConnection } from "./graphql";
