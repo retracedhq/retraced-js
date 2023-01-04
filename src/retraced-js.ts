@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 import * as _ from "lodash";
 import { Event, verifyHash } from "./event";
 import { StructuredQuery, EventNodeMask, EventsConnection } from "./graphql";
+import axios from "axios";
 
 const defaultEndpoint = "http://localhost:3000/auditlog";
 
@@ -162,22 +163,23 @@ export class Client {
     const q = new URLSearchParams(params);
 
     const urlWithQuery = `${endpoint}/publisher/v1/project/${projectId}/viewertoken?${q.toString()}`;
-    const response = await fetch(urlWithQuery, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Token token=${apiKey}`,
-      },
-    });
 
-    if (!response.ok) {
-      throw new Error(
-        `Unexpected HTTP response: ${response.status} ${response.statusText}`
-      );
+    let token;
+    try {
+      const { data } = await axios.get<{ token: string }>(urlWithQuery, {
+        headers: {
+          Authorization: `Token token=${apiKey}`,
+        },
+      });
+
+      token = data.token;
+    } catch (err: any) {
+      const status = err.response ? err.response.status : 500;
+      const statusText = err.response ? err.response.statusText : "Unknown";
+      throw new Error(`Unexpected HTTP response: ${status} ${statusText}`);
     }
 
-    const responseObj = (await response.json()) as any;
-    return responseObj.token;
+    return token;
   }
 
   public async query(
