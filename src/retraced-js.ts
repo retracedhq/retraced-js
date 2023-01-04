@@ -1,7 +1,7 @@
-import fetch from "node-fetch";
 import * as _ from "lodash";
 import { Event, verifyHash } from "./event";
 import { StructuredQuery, EventNodeMask, EventsConnection } from "./graphql";
+import axios from "axios";
 
 const defaultEndpoint = "http://localhost:3000/auditlog";
 
@@ -55,26 +55,26 @@ export class Client {
       version: this.config.version,
     };
 
-    const response = await fetch(
-      `${endpoint}/publisher/v1/project/${projectId}/event`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `token=${apiKey}`,
-        },
-        body: JSON.stringify(requestBody),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        `Unexpected HTTP response: ${response.status} ${response.statusText}`
+    let newEvent: NewEventRecord;
+    try {
+      const { data } = await axios.post<NewEventRecord>(
+        `${endpoint}/publisher/v1/project/${projectId}/event`,
+        requestBody,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `token=${apiKey}`,
+          },
+        }
       );
+
+      newEvent = data;
+    } catch (err) {
+      const status = err.response ? err.response.status : 500;
+      const statusText = err.response ? err.response.statusText : "Unknown";
+      throw new Error(`Unexpected HTTP response: ${status} ${statusText}`);
     }
 
-    const newEvent: NewEventRecord = (await response.json()) as NewEventRecord;
     try {
       verifyHash(event, newEvent);
     } catch (err) {
@@ -108,27 +108,26 @@ export class Client {
       };
     });
 
-    const response = await fetch(
-      `${endpoint}/publisher/v1/project/${projectId}/event/bulk`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `token=${apiKey}`,
-        },
-        body: JSON.stringify({ events: requestBody }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        `Unexpected HTTP response: ${response.status} ${response.statusText}`
+    let newEvents: NewEventRecord[];
+    try {
+      const { data } = await axios.post<NewEventRecord[]>(
+        `${endpoint}/publisher/v1/project/${projectId}/event/bulk`,
+        { events: requestBody },
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `token=${apiKey}`,
+          },
+        }
       );
+
+      newEvents = data;
+    } catch (err) {
+      const status = err.response ? err.response.status : 500;
+      const statusText = err.response ? err.response.statusText : "Unknown";
+      throw new Error(`Unexpected HTTP response: ${status} ${statusText}`);
     }
 
-    const newEvents: NewEventRecord[] =
-      (await response.json()) as NewEventRecord[];
     try {
       _.forEach(newEvents, (newEvent, index) => {
         verifyHash(events[index], newEvent);
@@ -162,22 +161,23 @@ export class Client {
     const q = new URLSearchParams(params);
 
     const urlWithQuery = `${endpoint}/publisher/v1/project/${projectId}/viewertoken?${q.toString()}`;
-    const response = await fetch(urlWithQuery, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Token token=${apiKey}`,
-      },
-    });
 
-    if (!response.ok) {
-      throw new Error(
-        `Unexpected HTTP response: ${response.status} ${response.statusText}`
-      );
+    let token;
+    try {
+      const { data } = await axios.get<{ token: string }>(urlWithQuery, {
+        headers: {
+          Authorization: `Token token=${apiKey}`,
+        },
+      });
+
+      token = data.token;
+    } catch (err: any) {
+      const status = err.response ? err.response.status : 500;
+      const statusText = err.response ? err.response.statusText : "Unknown";
+      throw new Error(`Unexpected HTTP response: ${status} ${statusText}`);
     }
 
-    const responseObj = (await response.json()) as any;
-    return responseObj.token;
+    return token;
   }
 
   public async query(
