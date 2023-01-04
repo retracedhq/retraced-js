@@ -2,20 +2,24 @@
 
 [![CircleCI](https://circleci.com/gh/retracedhq/retraced-js.svg?style=svg)](https://circleci.com/gh/retracedhq/retraced-js)
 
-This is the official NodeJS client for interacting with the Retraced API. Retraced is an "audit logs as a service" provider, allowing developers to easily implement audit logging in their multi-tenant products and services. For more information, see the official website: https://www.retraced.io/
+This is the official NodeJS client for interacting with the Retraced API. Retraced is an "audit logs as a service" provider, allowing developers to easily implement audit logging in their multi-tenant products and services. For more information, see the official website: https://boxyhq.com/audit-logs
 
 ## Installation
+
 ### yarn
+
 ```shell
-$ yarn add retraced
+$ yarn add @retraced-hq/retraced
 ```
 
 ### npm
+
 ```shell
-$ npm i -s retraced
+$ npm i -s @retraced-hq/retraced
 ```
 
 ## Usage
+
 ```typescript
 import * as Retraced from "retraced";
 
@@ -69,4 +73,5 @@ async function createNewRecord(request) {
 ```
 
 ## Next Steps
-For more details on the structure of Retraced events, please visit the official documentation site: https://docs.retraced.io/
+
+For more details on the structure of Retraced events, please visit the official documentation site: https://boxyhq.com/docs/retraced/overview

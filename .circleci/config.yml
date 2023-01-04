@@ -14,10 +14,10 @@ jobs:
       - checkout
       - run:
           name: build
-          command: yarn install
+          command: npm install
       - run:
           name: test
-          command: yarn test
+          command: npm run test
 
   deploy:
     <<: *defaults
@@ -25,7 +25,7 @@ jobs:
       - checkout
       - run:
           name: Yarn
-          command: "yarn install"
+          command: "npm install"
       - run:
           name: publish
           command: |

@@ -1,5 +1,6 @@
 import { suite, test } from "@testdeck/mocha";
 import { expect } from "chai";
+import * as url from "url";
 
 import * as Retraced from "./";
 
@@ -295,5 +296,29 @@ class RetracedJSTests {
     const queryString = Retraced.stringifyStructuredQuery(queryObj);
 
     expect(queryString).to.equal(answer);
+  }
+
+  @test public "url format replacement"() {
+    const result =
+      "?group_id=groupId&actor_id=actorId&is_admin=true&view_log_action=viewLogAction";
+
+    const q = url.format({
+      query: {
+        group_id: "groupId",
+        actor_id: "actorId",
+        is_admin: true,
+        view_log_action: "viewLogAction",
+      },
+    });
+
+    const sp = new URLSearchParams({
+      group_id: "groupId",
+      actor_id: "actorId",
+      is_admin: "" + true,
+      view_log_action: "viewLogAction",
+    });
+
+    expect(q).to.equal(result);
+    expect("?" + sp.toString()).to.equal(result);
   }
 }

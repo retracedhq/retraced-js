@@ -100,7 +100,7 @@ export class EventsConnection {
   }
 }
 
-// https://preview.retraced.io/documentation/getting-started/searching-for-events/#structured-advanced-search
+// https://boxyhq.com/docs/retraced/getting-started/searching-for-events#structured-advanced-search
 export interface StructuredQuery {
   action?: string;
   crud?: string;
