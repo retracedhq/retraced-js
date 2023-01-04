@@ -1,5 +1,5 @@
-import fetch from "node-fetch";
 import * as _ from "lodash";
+import axios from "axios";
 
 export interface GraphQLSearchData {
   data: {
@@ -70,24 +70,24 @@ export class EventsConnection {
         before: cursor,
       },
     };
-    const response = await fetch(this.url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: this.authorization,
-      },
-      body: JSON.stringify(body),
-    });
 
-    if (!response.ok) {
-      throw new Error(
-        `Unexpected HTTP response: ${response.status} ${response.statusText} ${response.body}`
-      );
+    let searchData: GraphQLSearchData;
+    try {
+      const rsp = await axios.post<GraphQLSearchData>(this.url, body, {
+        headers: {
+          Accept: "application/json",
+          Authorization: this.authorization,
+        },
+      });
+
+      searchData = rsp.data;
+    } catch (err) {
+      const status = err.response ? err.response.status : 500;
+      const statusText = err.response ? err.response.statusText : "Unknown";
+      throw new Error(`Unexpected HTTP response: ${status} ${statusText}`);
     }
 
-    const { data }: GraphQLSearchData =
-      (await response.json()) as GraphQLSearchData;
+    const { data } = searchData;
 
     this.totalCount = data.search.totalCount;
     this.currentResults = data.search.edges.map((edge) => {

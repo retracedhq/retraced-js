@@ -1,20 +1,21 @@
 {
-    "version": "2.1.0",
-    "compilerOptions": {
-        "target": "es2017",
-        "module": "commonjs",
-        "declaration": true,
-        "outDir": "lib/",
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "preserveConstEnums": true,
-        "removeComments": true,
-        "experimentalDecorators": true,
-        "lib": ["dom", "es6", "scripthost", "es2017"]
-    },
-    "files": [
-        "./src/index.ts",
-        "./src/retraced-js.ts",
-        "./src/test.ts"
-    ]
+  "version": "2.1.0",
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "lib/",
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "lib": ["dom", "es6", "scripthost", "es2017"]
+  },
+  "files": [
+    "./src/index.ts",
+    "./src/retraced-js.ts",
+    "./src/test.ts",
+    "./src/local-test.ts"
+  ]
 }
