@@ -9,13 +9,13 @@ This is the official NodeJS client for interacting with the Retraced API. Retrac
 ### yarn
 
 ```shell
-$ yarn add @retraced-hq/retraced
+$ yarn add @retracedhq/retraced
 ```
 
 ### npm
 
 ```shell
-$ npm i -s @retraced-hq/retraced
+$ npm i -s @retracedhq/retraced
 ```
 
 ## Usage
