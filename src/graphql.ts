@@ -296,10 +296,7 @@ export const graphQLQuery = (mask: EventNodeMask) => {
   }
 
   let actor = "";
-  if (
-    mask.actor &&
-    (mask.actor.id || mask.actor.name || mask.actor.href || mask.actor.fields)
-  ) {
+  if (mask.actor && (mask.actor.id || mask.actor.name || mask.actor.href || mask.actor.fields)) {
     actor = `actor {
           ${mask.actor.id ? "id" : ""}
           ${mask.actor.name ? "name" : ""}
@@ -318,11 +315,7 @@ export const graphQLQuery = (mask: EventNodeMask) => {
   let target = "";
   if (
     mask.target &&
-    (mask.target.id ||
-      mask.target.name ||
-      mask.target.href ||
-      mask.target.type ||
-      mask.target.fields)
+    (mask.target.id || mask.target.name || mask.target.href || mask.target.type || mask.target.fields)
   ) {
     const fields = `fields {
             key
@@ -409,18 +402,12 @@ export const stringifyStructuredQuery = (queryObj: StructuredQuery): string => {
     params.push(`crud:${queryObj.crud}`);
   }
   if (queryObj.received_start || queryObj.received_end) {
-    const start = queryObj.received_start
-      ? queryObj.received_start.toISOString()
-      : "";
-    const end = queryObj.received_end
-      ? queryObj.received_end.toISOString()
-      : "";
+    const start = queryObj.received_start ? queryObj.received_start.toISOString() : "";
+    const end = queryObj.received_end ? queryObj.received_end.toISOString() : "";
     params.push(`received:${start},${end}`);
   }
   if (queryObj.created_start || queryObj.created_end) {
-    const start = queryObj.created_start
-      ? queryObj.created_start.toISOString()
-      : "";
+    const start = queryObj.created_start ? queryObj.created_start.toISOString() : "";
     const end = queryObj.created_end ? queryObj.created_end.toISOString() : "";
     params.push(`created:${start},${end}`);
   }

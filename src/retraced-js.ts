@@ -78,9 +78,7 @@ export class Client {
     try {
       verifyHash(event, newEvent);
     } catch (err) {
-      throw new Error(
-        `Local event hash calculation did not match the server's: ${err}`
-      );
+      throw new Error(`Local event hash calculation did not match the server's: ${err}`);
     }
 
     return newEvent.id;
@@ -133,19 +131,13 @@ export class Client {
         verifyHash(events[index], newEvent);
       });
     } catch (err) {
-      throw new Error(
-        `Local event hash calculation did not match the server's: ${err}`
-      );
+      throw new Error(`Local event hash calculation did not match the server's: ${err}`);
     }
 
     return newEvents.map((newEvent) => newEvent.id);
   }
 
-  public async getViewerToken(
-    groupId: string,
-    actorId: string,
-    isAdmin?: boolean
-  ): Promise<string> {
+  public async getViewerToken(groupId: string, actorId: string, isAdmin?: boolean): Promise<string> {
     const { endpoint, apiKey, projectId, viewLogAction } = this.config;
 
     const params = {
@@ -180,11 +172,7 @@ export class Client {
     return token;
   }
 
-  public async query(
-    q: StructuredQuery,
-    mask: EventNodeMask,
-    pageSize: number
-  ): Promise<EventsConnection> {
+  public async query(q: StructuredQuery, mask: EventNodeMask, pageSize: number): Promise<EventsConnection> {
     const { endpoint, apiKey, projectId } = this.config;
 
     const conn = new EventsConnection(

@@ -299,8 +299,7 @@ class RetracedJSTests {
   }
 
   @test public "url format replacement"() {
-    const result =
-      "?group_id=groupId&actor_id=actorId&is_admin=true&view_log_action=viewLogAction";
+    const result = "?group_id=groupId&actor_id=actorId&is_admin=true&view_log_action=viewLogAction";
 
     const q = url.format({
       query: {
