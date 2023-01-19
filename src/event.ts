@@ -31,10 +31,10 @@ export interface Event {
   created?: Date;
   actor?: Actor;
   target?: Target; // TODO: Is target
-  sourceIp?: string;
+  source_ip?: string;
   description?: string;
-  isFailure?: boolean;
-  isAnonymous?: boolean;
+  is_failure?: boolean;
+  is_anonymous?: boolean;
   fields?: { [key: string]: string };
 }
 
@@ -109,11 +109,11 @@ export function buildHashTarget(
   canonicalString += _.isEmpty(event.group)
     ? ":"
     : `${encodePassOne(event.group!.id)}:`;
-  canonicalString += _.isEmpty(event.sourceIp)
+  canonicalString += _.isEmpty(event.source_ip)
     ? ":"
-    : `${encodePassOne(event.sourceIp!)}:`;
-  canonicalString += event.isFailure ? "1:" : "0:";
-  canonicalString += event.isAnonymous ? "1:" : "0:";
+    : `${encodePassOne(event.source_ip!)}:`;
+  canonicalString += event.is_failure ? "1:" : "0:";
+  canonicalString += event.is_anonymous ? "1:" : "0:";
 
   if (!event.fields) {
     canonicalString += ":";
