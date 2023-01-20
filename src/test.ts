@@ -23,8 +23,8 @@ class RetracedJSTests {
         id: "Customer: XYZ",
         name: "Some Customer",
       },
-      sourceIp: "1.2.3.4",
-      isAnonymous: true,
+      source_ip: "1.2.3.4",
+      is_anonymous: true,
       fields: {
         custom: "123",
         Custom: "Rate = 50%",
@@ -62,8 +62,8 @@ class RetracedJSTests {
         id: "some_object01234",
         name: "Important Business Widget",
       },
-      isAnonymous: false,
-      isFailure: true,
+      is_anonymous: false,
+      is_failure: true,
       fields: {
         ";zyx=cba;abc=xyz": "nothing special",
         ";Zyx=Cba%Abc=Xyz": "% hi there %",
@@ -97,8 +97,8 @@ class RetracedJSTests {
         id: "some_object01234",
         name: "Important Business Widget",
       },
-      isAnonymous: false,
-      isFailure: true,
+      is_anonymous: false,
+      is_failure: true,
       fields: {
         "abc=xyz": "nothing special",
       },
@@ -299,8 +299,7 @@ class RetracedJSTests {
   }
 
   @test public "url format replacement"() {
-    const result =
-      "?group_id=groupId&actor_id=actorId&is_admin=true&view_log_action=viewLogAction";
+    const result = "?group_id=groupId&actor_id=actorId&is_admin=true&view_log_action=viewLogAction";
 
     const q = url.format({
       query: {

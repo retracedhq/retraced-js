@@ -31,10 +31,10 @@ export interface Event {
   created?: Date;
   actor?: Actor;
   target?: Target; // TODO: Is target
-  sourceIp?: string;
+  source_ip?: string;
   description?: string;
-  isFailure?: boolean;
-  isAnonymous?: boolean;
+  is_failure?: boolean;
+  is_anonymous?: boolean;
   fields?: { [key: string]: string };
 }
 
@@ -54,9 +54,7 @@ export function verifyHash(event: Event, newEvent: NewEventRecord): string {
   const { hashResult, hashTarget } = computeHash(event, newEvent);
 
   if (hashResult !== newEvent.hash) {
-    throw new Error(
-      `hash mismatch, local=${hashResult}, remote=${newEvent.hash}, target=${hashTarget}`
-    );
+    throw new Error(`hash mismatch, local=${hashResult}, remote=${newEvent.hash}, target=${hashTarget}`);
   }
 
   return hashResult;
@@ -68,16 +66,13 @@ export function computeHash(
 ): { hashResult: string; hashTarget: string } {
   for (const fieldName of requiredFields) {
     if (_.isEmpty(_.get(event, fieldName))) {
-      throw new Error(
-        `Canonicalization failed: missing required event attribute '${fieldName}'`
-      );
+      throw new Error(`Canonicalization failed: missing required event attribute '${fieldName}'`);
     }
   }
 
   for (const [fieldName, requiredSubfield] of requiredSubfields) {
     const hasField = !_.isEmpty(_.get(event, fieldName));
-    const missingSubfield =
-      hasField && _.isEmpty(_.get(event, requiredSubfield));
+    const missingSubfield = hasField && _.isEmpty(_.get(event, requiredSubfield));
     if (missingSubfield) {
       throw new Error(
         `Canonicalization failed: attribute '${requiredSubfield}' is required if '${fieldName}' is present.`
@@ -93,27 +88,16 @@ export function computeHash(
   return { hashResult, hashTarget };
 }
 
-export function buildHashTarget(
-  event: Event,
-  newEvent: NewEventRecord
-): string {
+export function buildHashTarget(event: Event, newEvent: NewEventRecord): string {
   let canonicalString = "";
   canonicalString += `${encodePassOne(newEvent.id)}:`;
   canonicalString += `${encodePassOne(event.action)}:`;
-  canonicalString += _.isEmpty(event.target)
-    ? ":"
-    : `${encodePassOne(event.target!.id)}:`;
-  canonicalString += _.isEmpty(event.actor)
-    ? ":"
-    : `${encodePassOne(event.actor!.id)}:`;
-  canonicalString += _.isEmpty(event.group)
-    ? ":"
-    : `${encodePassOne(event.group!.id)}:`;
-  canonicalString += _.isEmpty(event.sourceIp)
-    ? ":"
-    : `${encodePassOne(event.sourceIp!)}:`;
-  canonicalString += event.isFailure ? "1:" : "0:";
-  canonicalString += event.isAnonymous ? "1:" : "0:";
+  canonicalString += _.isEmpty(event.target) ? ":" : `${encodePassOne(event.target!.id)}:`;
+  canonicalString += _.isEmpty(event.actor) ? ":" : `${encodePassOne(event.actor!.id)}:`;
+  canonicalString += _.isEmpty(event.group) ? ":" : `${encodePassOne(event.group!.id)}:`;
+  canonicalString += _.isEmpty(event.source_ip) ? ":" : `${encodePassOne(event.source_ip!)}:`;
+  canonicalString += event.is_failure ? "1:" : "0:";
+  canonicalString += event.is_anonymous ? "1:" : "0:";
 
   if (!event.fields) {
     canonicalString += ":";
