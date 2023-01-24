@@ -33,7 +33,7 @@ jobs:
       - id: version
         run: |
           npm install -g json
-          RETRACED_VERSION=$(echo $(cat ../package.json) | json version)
+          RETRACED_VERSION=$(echo $(cat ./package.json) | json version)
 
           publishTag="latest"
 
