@@ -29,7 +29,6 @@ jobs:
       - uses: actions/checkout@v3
       - run: npm install
       - run: npm run prepublish
-      - run: make build
       - run: npm run test
       - id: version
         run: |
