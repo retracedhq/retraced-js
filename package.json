@@ -1,11 +1,11 @@
 {
   "name": "@retracedhq/retraced",
-  "author": "Replicated, Inc.",
+  "author": "Replicated Inc., BoxyHQ Inc.",
   "version": "0.6.1",
   "engines": {
     "node": ">=14.x"
   },
-  "license": "Apache-2.0 license",
+  "license": "Apache-2.0",
   "repository": "https://github.com/retracedhq/retraced-js.git",
   "bugs": {
     "email": "retraced@boxyhq.com",
@@ -16,7 +16,8 @@
     "audit",
     "log",
     "retraced",
-    "replicated"
+    "replicated",
+    "boxyhq"
   ],
   "contributors": [
     "Joe Toscano <jtoscano42@gmail.com>",
