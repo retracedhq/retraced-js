@@ -89,7 +89,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           format: spdx
-          artifact-name: npm_sbom.spdx
+          artifact-name: sbom.spdx
       - name: Publish report [SPDX]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
@@ -98,7 +98,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           format: cyclonedx
-          artifact-name: npm_sbom.cyclonedx
+          artifact-name: sbom.cyclonedx
       - name: Publish report [CycloneDx]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
@@ -106,11 +106,11 @@ jobs:
       - name: Download artifact for SPDX Report
         uses: actions/download-artifact@v3
         with:
-          name: npm_sbom.spdx
+          name: sbom.spdx
       - name: Download artifact for CycloneDx Report
         uses: actions/download-artifact@v3
         with:
-          name: npm_sbom.cyclonedx
+          name: sbom.cyclonedx
       - name: Remove older SBOMs
         run: rm -rf ./npm/sbom*.* || true
       - name: Remove older SBOMs
