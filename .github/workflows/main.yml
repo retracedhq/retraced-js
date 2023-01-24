@@ -89,7 +89,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           format: spdx
-          artifact-name: sbom.spdx
+          artifact-name: npm_sbom.spdx
       - name: Publish report [SPDX]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
@@ -98,7 +98,7 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           format: cyclonedx
-          artifact-name: sbom.cyclonedx
+          artifact-name: npm_sbom.cyclonedx
       - name: Publish report [CycloneDx]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
