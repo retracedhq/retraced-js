@@ -27,6 +27,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          check-latest: true
       - run: npm install
       - run: npm run prepublish
       - run: npm run test
@@ -93,18 +99,15 @@ jobs:
         with:
           format: spdx
           artifact-name: sbom.spdx
-
       - name: Publish report [SPDX]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
           sbom-artifact-match: ".*\\.spdx$"
-
       - name: Create NPM Pacakge SBOM Report [CycloneDx]
         uses: anchore/sbom-action@v0
         with:
           format: cyclonedx
           artifact-name: sbom.cyclonedx
-
       - name: Publish report [CycloneDx]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
