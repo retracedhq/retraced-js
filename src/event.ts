@@ -15,27 +15,29 @@ export interface Actor {
   id: string;
   name?: string;
   href?: string;
-  fields?: { [key: string]: string }; // TODO: array of roles
+  fields?: { [key: string]: string };
 }
 
 export interface Group {
-  // TODO: array of roles
   id: string;
   name?: string;
+  fields?: { [key: string]: string };
 }
 
 export interface Event {
+  external_id?: string; // map to external id if needed
   action: string;
   group?: Group;
   crud?: string;
   created?: Date;
   actor?: Actor;
-  target?: Target; // TODO: Is target
+  target?: Target;
   source_ip?: string;
   description?: string;
   is_failure?: boolean;
   is_anonymous?: boolean;
   fields?: { [key: string]: string };
+  indexes?: { [key: string]: string }; // additional custom indexes, use sparingly
 }
 
 const requiredFields = ["action"];
@@ -110,6 +112,22 @@ export function buildHashTarget(event: Event, newEvent: NewEventRecord): string 
       canonicalString += `${encodedKey}=${encodedValue};`;
     }
   }
+
+  if (event.external_id) {
+    canonicalString += `:${encodePassOne(event.external_id)}`;
+  }
+
+  if (event.indexes) {
+    canonicalString += ":";
+    const sortedKeys = _.keys(event.indexes).sort();
+    for (const key of sortedKeys) {
+      const value = event.indexes[key];
+      const encodedKey = encodePassTwo(encodePassOne(key));
+      const encodedValue = encodePassTwo(encodePassOne(value));
+      canonicalString += `${encodedKey}=${encodedValue};`;
+    }
+  }
+
   return canonicalString;
 }
 

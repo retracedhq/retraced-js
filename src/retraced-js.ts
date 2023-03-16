@@ -35,11 +35,9 @@ export class Client {
     this.config = config;
   }
 
-  // confirms the hash and returns the ID of the event
-  public async reportEvent(event: Event): Promise<string> {
-    const { endpoint, apiKey, projectId } = this.config;
-
-    const requestBody: any = {
+  private mapping(event: Event): any {
+    return {
+      external_id: event.external_id,
       action: event.action,
       group: event.group,
       crud: event.crud,
@@ -51,9 +49,17 @@ export class Client {
       is_failure: event.is_failure,
       is_anonymous: event.is_anonymous,
       fields: event.fields,
+      indexes: event.indexes,
       component: this.config.component,
       version: this.config.version,
     };
+  }
+
+  // confirms the hash and returns the ID of the event
+  public async reportEvent(event: Event): Promise<string> {
+    const { endpoint, apiKey, projectId } = this.config;
+
+    const requestBody: any = this.mapping(event);
 
     let newEvent: NewEventRecord;
     try {
@@ -89,21 +95,7 @@ export class Client {
     const { endpoint, apiKey, projectId } = this.config;
 
     const requestBody: any = _.map(events, (event) => {
-      return {
-        action: event.action,
-        group: event.group,
-        crud: event.crud,
-        created: event.created,
-        actor: event.actor,
-        target: event.target,
-        source_ip: event.source_ip,
-        description: event.description,
-        is_failure: event.is_failure,
-        is_anonymous: event.is_anonymous,
-        fields: event.fields,
-        component: this.config.component,
-        version: this.config.version,
-      };
+      return this.mapping(event);
     });
 
     let newEvents: NewEventRecord[];
