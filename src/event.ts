@@ -7,6 +7,13 @@ export interface EventFields {
   [key: string]: string;
 }
 
+export enum crud {
+  "c" = "c",
+  "r" = "r",
+  "u" = "u",
+  "d" = "d",
+}
+
 export interface Target {
   id: string;
   name?: string;
@@ -31,7 +38,7 @@ export interface Group {
 export interface Event {
   action: string;
   group?: Group;
-  crud?: string;
+  crud?: crud;
   created?: Date;
   actor?: Actor;
   target?: Target;

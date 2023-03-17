@@ -1,4 +1,5 @@
 import * as Retraced from "./";
+import { crud } from "./";
 
 async function runTest() {
   const retraced = new Retraced.Client({
@@ -22,7 +23,7 @@ async function runTest() {
       id: "test",
       name: "test",
     },
-    crud: "c",
+    crud: crud.c,
     group: {
       id: "test",
       name: "test",
@@ -42,7 +43,7 @@ async function runTest() {
         id: "test",
         name: "test",
       },
-      crud: "c",
+      crud: crud.c,
       group: {
         id: "test",
         name: "test",
