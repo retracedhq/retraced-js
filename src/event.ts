@@ -7,13 +7,6 @@ export interface EventFields {
   [key: string]: string;
 }
 
-export enum crud {
-  "c" = "c",
-  "r" = "r",
-  "u" = "u",
-  "d" = "d",
-}
-
 export interface Target {
   id: string;
   name?: string;
@@ -38,7 +31,7 @@ export interface Group {
 export interface Event {
   action: string;
   group?: Group;
-  crud?: crud;
+  crud?: "c" | "r" | "u" | "d";
   created?: Date;
   actor?: Actor;
   target?: Target;
@@ -93,7 +86,7 @@ export function computeHash(
     }
   }
 
-  const hashTarget = buildHashTarget(event, newEvent);
+  const hashTarget = buildHashTarget(event, newEvent.id);
   const hasher = crypto.createHash("sha256");
   hasher.update(hashTarget);
   const hashResult = hasher.digest("hex");
@@ -101,9 +94,9 @@ export function computeHash(
   return { hashResult, hashTarget };
 }
 
-export function buildHashTarget(event: Event, newEvent: NewEventRecord): string {
+export function buildHashTarget(event: Event, id: string): string {
   let canonicalString = "";
-  canonicalString += `${encodePassOne(newEvent.id)}:`;
+  canonicalString += `${encodePassOne(id)}:`;
   canonicalString += `${encodePassOne(event.action)}:`;
   canonicalString += _.isEmpty(event.target) ? ":" : `${encodePassOne(event.target!.id)}:`;
   canonicalString += _.isEmpty(event.actor) ? ":" : `${encodePassOne(event.actor!.id)}:`;
