@@ -25,7 +25,6 @@ export interface Group {
 }
 
 export interface Event {
-  external_id?: string; // map to external id if needed
   action: string;
   group?: Group;
   crud?: string;
@@ -37,6 +36,7 @@ export interface Event {
   is_failure?: boolean;
   is_anonymous?: boolean;
   fields?: { [key: string]: string };
+  external_id?: string; // map to external id if needed
   indexes?: { [key: string]: string }; // additional custom indexes, use sparingly
 }
 

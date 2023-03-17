@@ -37,7 +37,6 @@ export class Client {
 
   private mapping(event: Event): any {
     return {
-      external_id: event.external_id,
       action: event.action,
       group: event.group,
       crud: event.crud,
@@ -49,9 +48,10 @@ export class Client {
       is_failure: event.is_failure,
       is_anonymous: event.is_anonymous,
       fields: event.fields,
-      indexes: event.indexes,
       component: this.config.component,
       version: this.config.version,
+      external_id: event.external_id,
+      indexes: event.indexes,
     };
   }
 
