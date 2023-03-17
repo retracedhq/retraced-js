@@ -3,25 +3,29 @@ import * as crypto from "crypto";
 
 import { NewEventRecord } from "./retraced-js";
 
+export interface EventFields {
+  [key: string]: string;
+}
+
 export interface Target {
   id: string;
   name?: string;
   href?: string;
   type?: string;
-  fields?: { [key: string]: string };
+  fields?: EventFields;
 }
 
 export interface Actor {
   id: string;
   name?: string;
   href?: string;
-  fields?: { [key: string]: string };
+  fields?: EventFields;
 }
 
 export interface Group {
   id: string;
   name?: string;
-  fields?: { [key: string]: string };
+  fields?: EventFields;
 }
 
 export interface Event {
@@ -35,9 +39,9 @@ export interface Event {
   description?: string;
   is_failure?: boolean;
   is_anonymous?: boolean;
-  fields?: { [key: string]: string };
+  fields?: EventFields;
   external_id?: string; // map to external id if needed
-  indexes?: { [key: string]: string }; // additional custom indexes, use sparingly
+  indexes?: EventFields; // additional custom indexes, use sparingly
 }
 
 const requiredFields = ["action"];
@@ -134,11 +138,11 @@ export function buildHashTarget(event: Event, newEvent: NewEventRecord): string 
 function encodePassOne(valueIn: string): string {
   // % -> %25
   // : -> %3A
-  return valueIn.replace(/%/g, "%25").replace(/:/g, "%3A");
+  return valueIn ? (valueIn.replace ? valueIn.replace(/%/g, "%25").replace(/:/g, "%3A") : valueIn) : valueIn;
 }
 
 function encodePassTwo(valueIn: string): string {
   // = -> %3D
   // ; -> %3B
-  return valueIn.replace(/=/g, "%3D").replace(/;/g, "%3B");
+  return valueIn ? (valueIn.replace ? valueIn.replace(/=/g, "%3D").replace(/;/g, "%3B") : valueIn) : valueIn;
 }
