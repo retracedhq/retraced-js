@@ -32,10 +32,12 @@ interface EventCreation {
   created?: Date;
 }
 
+export type CRUD = "c" | "r" | "u" | "d";
+
 export interface EventInternal {
   action: string;
   group?: Group;
-  crud?: "c" | "r" | "u" | "d";
+  crud?: CRUD;
   actor?: Actor;
   target?: Target;
   source_ip?: string;
