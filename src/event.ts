@@ -89,7 +89,7 @@ export function computeHash(event: Event, id: string): { hashResult: string; has
     const missingSubfield = hasField && _.isEmpty(_.get(event, requiredSubfield));
     if (missingSubfield) {
       throw new Error(
-        `Canonicalization failed: attribute '${requiredSubfield}' is required if '${fieldName}' is present.`
+        `Canonicalization failed: missing attribute '${requiredSubfield}' which is required when '${fieldName}' is present.`
       );
     }
   }
