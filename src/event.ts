@@ -67,6 +67,10 @@ export function verifyHash(event: Event, newEvent: NewEventRecord): string {
 }
 
 export function computeHash(event: Event, id: string): { hashResult: string; hashTarget: string } {
+  if (!id) {
+    throw new Error("Canonicalization failed: missing required event attribute 'id'");
+  }
+
   for (const fieldName of requiredFields) {
     if (_.isEmpty(_.get(event, fieldName))) {
       throw new Error(`Canonicalization failed: missing required event attribute '${fieldName}'`);
