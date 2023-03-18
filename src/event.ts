@@ -57,7 +57,7 @@ const requiredSubfields = [
 
 // Produces a canonical hash string representation of an event.
 export function verifyHash(event: Event, newEvent: NewEventRecord): string {
-  const { hashResult, hashTarget } = computeHash(event, newEvent);
+  const { hashResult, hashTarget } = computeHash(event, newEvent.id);
 
   if (hashResult !== newEvent.hash) {
     throw new Error(`hash mismatch, local=${hashResult}, remote=${newEvent.hash}, target=${hashTarget}`);
@@ -66,10 +66,7 @@ export function verifyHash(event: Event, newEvent: NewEventRecord): string {
   return hashResult;
 }
 
-export function computeHash(
-  event: Event,
-  newEvent: NewEventRecord
-): { hashResult: string; hashTarget: string } {
+export function computeHash(event: Event, id: string): { hashResult: string; hashTarget: string } {
   for (const fieldName of requiredFields) {
     if (_.isEmpty(_.get(event, fieldName))) {
       throw new Error(`Canonicalization failed: missing required event attribute '${fieldName}'`);
@@ -86,7 +83,7 @@ export function computeHash(
     }
   }
 
-  const hashTarget = buildHashTarget(event, newEvent.id);
+  const hashTarget = buildHashTarget(event, id);
   const hasher = crypto.createHash("sha256");
   hasher.update(hashTarget);
   const hashResult = hasher.digest("hex");
