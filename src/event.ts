@@ -28,11 +28,14 @@ export interface Group {
   fields?: EventFields;
 }
 
-export interface Event {
+interface EventCreation {
+  created?: Date;
+}
+
+export interface EventInternal {
   action: string;
   group?: Group;
   crud?: "c" | "r" | "u" | "d";
-  created?: Date;
   actor?: Actor;
   target?: Target;
   source_ip?: string;
@@ -43,6 +46,8 @@ export interface Event {
   external_id?: string; // map to external id if needed
   indexes?: EventFields; // additional custom indexes, use sparingly
 }
+
+export interface Event extends EventCreation, EventInternal {}
 
 const requiredFields = ["action"];
 
