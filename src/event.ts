@@ -25,7 +25,6 @@ export interface Actor {
 export interface Group {
   id: string;
   name?: string;
-  fields?: EventFields;
 }
 
 interface EventCreation {
