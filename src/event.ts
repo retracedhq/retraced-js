@@ -44,9 +44,9 @@ export interface EventInternal {
   description?: string;
   is_failure?: boolean;
   is_anonymous?: boolean;
-  fields?: EventFields;
+  fields?: EventFields; // this is indexed, use sparingly
   external_id?: string; // map to external id if needed
-  indexes?: EventFields; // additional custom indexes, use sparingly
+  metadata?: EventFields; // additional custom metadata, not indexed
 }
 
 export interface Event extends EventCreation, EventInternal {}
@@ -129,11 +129,11 @@ export function buildHashTarget(event: Event, id: string): string {
     canonicalString += `:${encodePassOne(event.external_id)}`;
   }
 
-  if (event.indexes) {
+  if (event.metadata) {
     canonicalString += ":";
-    const sortedKeys = _.keys(event.indexes).sort();
+    const sortedKeys = _.keys(event.metadata).sort();
     for (const key of sortedKeys) {
-      const value = event.indexes[key];
+      const value = event.metadata[key];
       const encodedKey = encodePassTwo(encodePassOne(key));
       const encodedValue = encodePassTwo(encodePassOne(value));
       canonicalString += `${encodedKey}=${encodedValue};`;

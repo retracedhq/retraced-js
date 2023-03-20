@@ -51,7 +51,7 @@ export class Client {
       component: this.config.component,
       version: this.config.version,
       external_id: event.external_id,
-      indexes: event.indexes,
+      metadata: event.metadata,
     };
   }
 
