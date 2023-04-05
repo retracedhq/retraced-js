@@ -112,6 +112,7 @@ export interface StructuredQuery {
   actor_id?: string;
   description?: string;
   location?: string;
+  external_id?: string;
 }
 
 export interface EventNodeMask {
@@ -152,6 +153,8 @@ export interface EventNodeMask {
   version?: boolean;
   fields?: boolean;
   raw?: boolean;
+  external_id?: boolean;
+  metadata?: boolean;
 }
 
 export interface FieldItem {
@@ -205,6 +208,8 @@ export interface RawEventNode {
   component?: string;
   version?: string;
   raw?: string;
+  external_id?: string;
+  metadata?: FieldItem[];
 }
 
 export interface EventNode {
@@ -243,6 +248,8 @@ export interface EventNode {
   component?: string;
   version?: string;
   raw?: string;
+  external_id?: string;
+  metadata?: { [key: string]: string };
 }
 
 const fieldsMap = (fieldsList: FieldItem[]) => {
@@ -380,7 +387,15 @@ export const graphQLQuery = (mask: EventNodeMask) => {
             : ""
         }
         ${mask.raw ? "raw" : ""}
-      }
+        ${mask.external_id ? "external_id" : ""}
+        ${
+          mask.metadata
+            ? `metadata {
+          key
+          value
+        }`
+            : ""
+        }
     }
   }
 }`;
