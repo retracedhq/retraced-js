@@ -392,6 +392,7 @@ export const graphQLQuery = (mask: EventNodeMask) => {
         }`
             : ""
         }
+      }
     }
   }
 }`;
