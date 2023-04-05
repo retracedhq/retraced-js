@@ -324,10 +324,6 @@ export const graphQLQuery = (mask: EventNodeMask) => {
     mask.target &&
     (mask.target.id || mask.target.name || mask.target.href || mask.target.type || mask.target.fields)
   ) {
-    const fields = `fields {
-            key
-            value
-          }`;
     target = `target {
           ${mask.target.id ? "id" : ""}
           ${mask.target.name ? "name" : ""}
