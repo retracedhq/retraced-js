@@ -9,69 +9,69 @@ This is the official NodeJS client for interacting with the Retraced API. Retrac
 ### yarn
 
 ```shell
-$ yarn add @retracedhq/retraced
+yarn add @retracedhq/retraced
 ```
 
 ### npm
 
 ```shell
-$ npm i -s @retracedhq/retraced
+npm i -s @retracedhq/retraced
 ```
 
 ## Usage
 
 ```typescript
-import * as Retraced from "retraced";
+import * as Retraced from "@retracedhq/retraced";
 
 // Initialize the client with your information.
 const retraced = new Retraced.Client({
-	apiKey: "your api key goes here",
-	projectId: "your project id goes here",
+  apiKey: "your api key goes here",
+  projectId: "your project id goes here",
 });
 
 // Report some audit events!
 async function createNewRecord(request) {
-	const newRecord = /* transform request into newRecord */
-	// ... some more business logic here ...
+  const newRecord = /* transform request into newRecord */
+  // ... some more business logic here ...
 
-	// Now construct the audit event to be reported to Retraced.
-	const event = {
-		action: "some.record.created",
-		group: {
+  // Now construct the audit event to be reported to Retraced.
+  const event = {
+    action: "some.record.created",
+    group: {
       id: "12345",
       name: "My Rad Customer",
     }
-		crud: "c",
-		source_ip: request.ip,
-		actor: {
-			id: "ultra.employee@customertowne.xyz",
-			displayName: "Ultra Employee",
-			url: "https://customertowne.xyz/employees/123456",
-		},
-		target: {
-			id: newRecord.id,
-			displayName: newRecord.name,
-			url: "https://customertowne.xyz/records/" + newRecord.id,
-		},
-	};
+    crud: "c",
+    source_ip: request.ip,
+    actor: {
+      id: "ultra.employee@customertowne.xyz",
+      displayName: "Ultra Employee",
+      url: "https://customertowne.xyz/employees/123456",
+    },
+    target: {
+      id: newRecord.id,
+      displayName: newRecord.name,
+      url: "https://customertowne.xyz/records/" + newRecord.id,
+    },
+  };
 
-	// The Retraced client's methods are asynchronous.
-	// You can "fire and forget" them...
-	retraced.reportEvent(event);
+  // The Retraced client's methods are asynchronous.
+  // You can "fire and forget" them...
+  retraced.reportEvent(event);
 
-	// ... "await" them...
-	console.log("Reporting...");
-	await retraced.reportEvent(event);
-	console.log("Finished reporting!");
+  // ... "await" them...
+  console.log("Reporting...");
+  await retraced.reportEvent(event);
+  console.log("Finished reporting!");
 
-	// ... or treat them as Promises.
-	console.log("Reporting...");
-	retraced.reportEvent(event)
-	  .then(() => { console.log("Finished reporting!"); })
-	  .catch((err) => handleError(err));
+  // ... or treat them as Promises.
+  console.log("Reporting...");
+  retraced.reportEvent(event)
+    .then(() => { console.log("Finished reporting!"); })
+    .catch((err) => handleError(err));
 }
 ```
 
 ## Next Steps
 
-For more details on the structure of Retraced events, please visit the official documentation site: https://boxyhq.com/docs/retraced/overview
+For more details on the structure of Retraced events, please visit the [official documentation](https://boxyhq.com/docs/retraced/overview).
