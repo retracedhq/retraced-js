@@ -40,7 +40,7 @@ async function createNewRecord(request) {
     group: {
       id: "12345",
       name: "My Rad Customer",
-    }
+    },
     crud: "c",
     source_ip: request.ip,
     actor: {
