@@ -152,7 +152,6 @@ export interface EventNodeMask {
   component?: boolean;
   version?: boolean;
   fields?: boolean;
-  raw?: boolean;
   external_id?: boolean;
   metadata?: boolean;
 }
@@ -207,7 +206,6 @@ export interface RawEventNode {
   canonical_time?: string;
   component?: string;
   version?: string;
-  raw?: string;
   external_id?: string;
   metadata?: FieldItem[];
 }
@@ -247,7 +245,6 @@ export interface EventNode {
   canonical_time?: Date;
   component?: string;
   version?: string;
-  raw?: string;
   external_id?: string;
   metadata?: { [key: string]: string };
 }
@@ -382,7 +379,6 @@ export const graphQLQuery = (mask: EventNodeMask) => {
         }`
             : ""
         }
-        ${mask.raw ? "raw" : ""}
         ${mask.external_id ? "external_id" : ""}
         ${
           mask.metadata
