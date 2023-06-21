@@ -153,7 +153,6 @@ class RetracedJSTests {
       component: true,
       version: true,
       fields: true,
-      raw: true,
     };
 
     const output: string = Retraced.graphQLQuery(mask);
@@ -210,7 +209,6 @@ class RetracedJSTests {
           key
           value
         }
-        raw
       }
     }
   }
