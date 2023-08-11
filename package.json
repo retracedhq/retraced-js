@@ -37,7 +37,7 @@
     "@testdeck/mocha": "0.3.3",
     "@types/chai": "4.3.5",
     "@types/chai-as-promised": "7.1.5",
-    "@types/lodash": "4.14.196",
+    "@types/lodash": "4.14.197",
     "@types/mocha": "10.0.1",
     "@types/node": "20.4.9",
     "chai": "4.3.7",
