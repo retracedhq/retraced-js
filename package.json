@@ -40,7 +40,7 @@
     "@types/lodash": "4.14.197",
     "@types/mocha": "10.0.1",
     "@types/node": "20.5.4",
-    "chai": "4.3.7",
+    "chai": "4.3.8",
     "chai-as-promised": "7.1.1",
     "mocha": "10.2.0",
     "tslint": "6.1.3",
