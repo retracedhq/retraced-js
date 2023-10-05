@@ -105,10 +105,10 @@ export function buildHashTarget(event: Event, id: string): string {
   let canonicalString = "";
   canonicalString += `${encodePassOne(id)}:`;
   canonicalString += `${encodePassOne(event.action)}:`;
-  canonicalString += _.isEmpty(event.target) ? ":" : `${encodePassOne(event.target!.id)}:`;
-  canonicalString += _.isEmpty(event.actor) ? ":" : `${encodePassOne(event.actor!.id)}:`;
-  canonicalString += _.isEmpty(event.group) ? ":" : `${encodePassOne(event.group!.id)}:`;
-  canonicalString += _.isEmpty(event.source_ip) ? ":" : `${encodePassOne(event.source_ip!)}:`;
+  canonicalString += _.isEmpty(event.target) ? ":" : `${encodePassOne(event.target.id)}:`;
+  canonicalString += _.isEmpty(event.actor) ? ":" : `${encodePassOne(event.actor.id)}:`;
+  canonicalString += _.isEmpty(event.group) ? ":" : `${encodePassOne(event.group.id)}:`;
+  canonicalString += _.isEmpty(event.source_ip) ? ":" : `${encodePassOne(event.source_ip as string)}:`;
   canonicalString += event.is_failure ? "1:" : "0:";
   canonicalString += event.is_anonymous ? "1:" : "0:";
 

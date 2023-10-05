@@ -12,7 +12,7 @@ class RetracedJSTests {
       projectId: "aaaahahahahahahaha",
     });
 
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(garbo).to.exist;
   }
 
@@ -43,7 +43,7 @@ class RetracedJSTests {
       explosion = err;
     }
 
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(explosion).to.exist;
   }
 
@@ -82,7 +82,7 @@ class RetracedJSTests {
       explosion = err;
     }
 
-    // tslint:disable-next-line:no-unused-expression
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     expect(explosion).to.not.exist;
   }
 
