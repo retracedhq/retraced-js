@@ -32,7 +32,7 @@
     "prepublish": "rm -rf ./lib && eslint -c .eslintrc.js ./src && tsc -p .",
     "test": "rm -rf ./lib && tsc -p . && mocha ./lib/test.js",
     "local-test": "rm -rf ./lib && tsc -p . && node ./lib/local-test.js",
-    "release": "git checkout release && git merge origin/main && release-it"
+    "release": "git checkout release && git merge origin/main && release-it && git checkout main && git merge origin/release && git push origin main"
   },
   "devDependencies": {
     "@testdeck/mocha": "0.3.3",
