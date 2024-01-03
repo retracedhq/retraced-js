@@ -1,8 +1,8 @@
 import { suite, test } from "@testdeck/mocha";
-import { expect } from "chai";
 import * as url from "url";
 
 import * as Retraced from "./";
+import assert = require("assert");
 
 @suite
 class RetracedJSTests {
@@ -13,7 +13,7 @@ class RetracedJSTests {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    expect(garbo).to.exist;
+    assert(garbo);
   }
 
   @test public "should fail the hash check"() {
@@ -44,7 +44,7 @@ class RetracedJSTests {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    expect(explosion).to.exist;
+    assert(explosion);
   }
 
   @test public "should pass the hash check"() {
@@ -83,7 +83,7 @@ class RetracedJSTests {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    expect(explosion).to.not.exist;
+    assert.strictEqual(explosion, undefined);
   }
 
   @test public "should generate a hash target without a group specified"() {
@@ -111,7 +111,7 @@ class RetracedJSTests {
 
     const expected =
       "kfbr392:even.more.of.a.test:some_object01234:user@domain.xyz:::1:0:abc%3Dxyz=nothing special;";
-    expect(Retraced.buildHashTarget(testEvent, fakeNew.id)).to.equal(expected);
+    assert.strictEqual(Retraced.buildHashTarget(testEvent, fakeNew.id), expected);
   }
 
   @test
@@ -214,7 +214,7 @@ class RetracedJSTests {
   }
 }`;
 
-    expect(output).to.equal(answer);
+    assert.strictEqual(output, answer);
   }
 
   @test
@@ -246,7 +246,7 @@ class RetracedJSTests {
   }
 }`;
 
-    expect(output).to.equal(answer);
+    assert.strictEqual(output, answer);
   }
 
   @test
@@ -277,7 +277,7 @@ class RetracedJSTests {
     };
     const output = Retraced.formatRawEventNode(raw);
 
-    expect(output).to.deep.equal(answer);
+    assert.deepEqual(output, answer);
   }
 
   @test public "should stringify structured query objects"() {
@@ -293,7 +293,7 @@ class RetracedJSTests {
     const answer = `action:"user.*" crud:c received:2017-06-01T00:00:00.000Z,2017-07-01T00:00:00.000Z actor.name:"Some Actor" actor.id:user@domain.xyz description:"web login"`;
     const queryString = Retraced.stringifyStructuredQuery(queryObj);
 
-    expect(queryString).to.equal(answer);
+    assert.strictEqual(queryString, answer);
   }
 
   @test public "url format replacement"() {
@@ -315,7 +315,7 @@ class RetracedJSTests {
       view_log_action: "viewLogAction",
     });
 
-    expect(q).to.equal(result);
-    expect("?" + sp.toString()).to.equal(result);
+    assert.strictEqual(q, result);
+    assert.strictEqual("?" + sp.toString(), result);
   }
 }
