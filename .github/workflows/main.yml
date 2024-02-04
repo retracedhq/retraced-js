@@ -37,6 +37,7 @@ jobs:
           cache: "npm"
           check-latest: true
       - run: npm install
+      - run: npm run check-format
       - run: npm run prepublish
       - run: npm run test
       - id: version
