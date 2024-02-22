@@ -13,12 +13,7 @@ module.exports = {
     project: "tsconfig.json",
     sourceType: "module",
   },
-  plugins: [
-    "eslint-plugin-import",
-    "eslint-plugin-jsdoc",
-    "eslint-plugin-prefer-arrow",
-    "@typescript-eslint",
-  ],
+  plugins: ["eslint-plugin-import", "eslint-plugin-prefer-arrow", "@typescript-eslint"],
   root: true,
   rules: {
     "@typescript-eslint/adjacent-overload-signatures": "error",
@@ -140,9 +135,6 @@ module.exports = {
     ],
     "id-match": "error",
     "import/order": "off",
-    "jsdoc/check-alignment": "off",
-    "jsdoc/check-indentation": "off",
-    "jsdoc/newline-after-description": "off",
     "max-classes-per-file": ["error", 1],
     "new-parens": "error",
     "no-array-constructor": "off",
