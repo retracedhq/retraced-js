@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@testdeck/mocha": "0.3.3",
-    "@types/lodash": "4.14.202",
+    "@types/lodash": "4.17.0",
     "@types/mocha": "10.0.6",
     "@types/node": "20.11.26",
     "@typescript-eslint/eslint-plugin": "7.1.1",
