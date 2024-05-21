@@ -101,6 +101,7 @@ jobs:
         with:
           format: spdx
           artifact-name: sbom.spdx
+          upload-artifact-retention: 1
       - name: Publish report [SPDX]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
@@ -110,6 +111,7 @@ jobs:
         with:
           format: cyclonedx
           artifact-name: sbom.cyclonedx
+          upload-artifact-retention: 1
       - name: Publish report [CycloneDx]
         uses: anchore/sbom-action/publish-sbom@v0
         with:
@@ -120,7 +122,7 @@ jobs:
         run: rm -rf sbom*.* || true
 
       - name: Download artifact for SPDX Report
-        if: github.ref == 'refs/heads/release'
+        if: github.ref == 'refs/heads/release-disabled'
         uses: actions/download-artifact@v3
         with:
           name: sbom.spdx
