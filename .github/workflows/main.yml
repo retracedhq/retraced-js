@@ -117,6 +117,10 @@ jobs:
         with:
           sbom-artifact-match: ".*\\.cyclonedx$"
 
+      - name: List SBOMs
+        if: github.ref == 'refs/heads/release'
+        run: ls -lisa
+
       - name: Remove older SBOMs
         if: github.ref == 'refs/heads/release'
         run: rm -rf sbom*.* || true
