@@ -117,10 +117,6 @@ jobs:
         with:
           sbom-artifact-match: ".*\\.cyclonedx$"
 
-      - name: List SBOMs
-        if: github.ref == 'refs/heads/release'
-        run: ls -lisa
-
       - name: Remove older SBOMs
         if: github.ref == 'refs/heads/release'
         run: rm -rf sbom*.* || true
@@ -132,7 +128,7 @@ jobs:
           name: sbom.spdx
 
       - name: Download artifact for CycloneDx Report
-        if: github.ref == 'refs/heads/release'
+        if: github.ref == 'refs/heads/release-disabled'
         uses: actions/download-artifact@v3
         with:
           name: sbom.cyclonedx
