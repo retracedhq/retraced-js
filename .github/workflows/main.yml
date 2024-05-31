@@ -122,19 +122,19 @@ jobs:
         run: rm -rf sbom*.* || true
 
       - name: Download artifact for SPDX Report
-        if: github.ref == 'refs/heads/release-disabled'
-        uses: actions/download-artifact@v3
+        if: github.ref == 'refs/heads/release'
+        uses: actions/download-artifact@v4
         with:
           name: sbom.spdx
 
       - name: Download artifact for CycloneDx Report
-        if: github.ref == 'refs/heads/release-disabled'
-        uses: actions/download-artifact@v3
+        if: github.ref == 'refs/heads/release'
+        uses: actions/download-artifact@v4
         with:
           name: sbom.cyclonedx
 
       - name: ORAS Setup
-        if: github.ref == 'refs/heads/release-disabled'
+        if: github.ref == 'refs/heads/release'
         run: |
           ORAS_VERSION="v0.8.1"
           ORAS_FILENAME="oras_0.8.1_linux_amd64.tar.gz"
@@ -145,7 +145,7 @@ jobs:
           cd ..
 
       - name: Push SBOM reports to GitHub Container Registry & Sign the sbom images
-        if: github.ref == 'refs/heads/release-disabled'
+        if: github.ref == 'refs/heads/release'
         run: |
           result=$(./oras_install/oras push ghcr.io/${{github.repository}}/sbom${{ needs.ci.outputs.IMAGE_SUFFIX }}:npm-${{ needs.ci.outputs.NPM_VERSION }} ./*sbom.*)
           ORAS_DIGEST=$(echo $result | grep -oE 'sha256:[a-f0-9]{64}')
