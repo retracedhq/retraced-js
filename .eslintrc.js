@@ -25,7 +25,7 @@ module.exports = {
     ],
     "@typescript-eslint/await-thenable": "error",
     "@typescript-eslint/ban-ts-comment": "error",
-    "@typescript-eslint/ban-types": [
+    "@typescript-eslint/no-restricted-types": [
       "error",
       {
         types: {
@@ -80,6 +80,7 @@ module.exports = {
     "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
     "@typescript-eslint/no-non-null-assertion": "warn",
     "@typescript-eslint/no-parameter-properties": "off",
+    "@typescript-eslint/no-require-imports": "off",
     "@typescript-eslint/no-shadow": [
       "error",
       {
