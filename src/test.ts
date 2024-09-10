@@ -5,6 +5,7 @@ import * as Retraced from "./";
 import assert = require("assert");
 
 @suite
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class RetracedJSTests {
   @test public "should instantiate"() {
     const garbo = new Retraced.Client({
@@ -12,7 +13,6 @@ class RetracedJSTests {
       projectId: "aaaahahahahahahaha",
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     assert(garbo);
   }
 
@@ -43,7 +43,6 @@ class RetracedJSTests {
       explosion = err;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     assert(explosion);
   }
 
@@ -82,7 +81,6 @@ class RetracedJSTests {
       explosion = err;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     assert.strictEqual(explosion, undefined);
   }
 
