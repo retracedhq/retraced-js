@@ -44,7 +44,7 @@
     "@typescript-eslint/eslint-plugin": "8.17.0",
     "@typescript-eslint/parser": "8.17.0",
     "chokidar": "4.0.1",
-    "eslint": "9.15.0",
+    "eslint": "9.16.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import-x": "4.4.3",
     "eslint-plugin-prefer-arrow": "1.2.3",
