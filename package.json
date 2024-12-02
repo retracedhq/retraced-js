@@ -48,7 +48,7 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import-x": "4.4.3",
     "eslint-plugin-prefer-arrow": "1.2.3",
-    "mocha": "10.8.2",
+    "mocha": "11.0.1",
     "prettier": "3.4.1",
     "release-it": "17.10.0",
     "typescript": "5.7.2"
