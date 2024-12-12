@@ -40,7 +40,7 @@
     "@testdeck/mocha": "0.3.3",
     "@types/lodash": "4.17.13",
     "@types/mocha": "10.0.10",
-    "@types/node": "22.10.1",
+    "@types/node": "22.10.2",
     "@typescript-eslint/eslint-plugin": "8.18.0",
     "@typescript-eslint/parser": "8.18.0",
     "chokidar": "4.0.1",
