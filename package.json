@@ -1,7 +1,7 @@
 {
   "name": "@retracedhq/retraced",
   "author": "Replicated Inc., BoxyHQ Inc.",
-  "version": "0.7.18",
+  "version": "0.7.19",
   "engines": {
     "node": ">=14.x"
   },
